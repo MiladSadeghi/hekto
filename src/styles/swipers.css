@@ -1,0 +1,15 @@
+.header .swiper-pagination-bullet {
+  rotate: 45deg;
+  border-radius: 0 !important;
+  background: none;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid #FB2E86;
+  margin-right: 10px !important;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.header .swiper-pagination-bullet-active {
+  background: #FB2E86;
+}

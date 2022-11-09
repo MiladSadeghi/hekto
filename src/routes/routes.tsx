@@ -1,12 +1,13 @@
 import React, { FC, ReactElement } from 'react'
-import { Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import Home from './Home/main'
 
-const routes:FC = (): ReactElement  => {
+const PagesRoute:FC = (): ReactElement  => {
   return (
     <Routes>
-      
+      <Route path='/' element={<Home />} />
     </Routes>
   )
 }
 
-export default routes
+export default PagesRoute
