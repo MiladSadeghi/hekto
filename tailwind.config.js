@@ -16,20 +16,12 @@ module.exports = {
         "blue-cc": "#2f1ac4",
         "sky-blue": "#f2f5ff",
         "pantone-purple": "#e0d3f5",
-        "off-blue": "#151875"
+        "off-blue": "#151875",
       },
       fontFamily: {
-        JosefinSans: ["joseinf sans", "serif"],
+        JosefinSans: ["Josefin Sans", "serif"],
         Lato: ["Lato", "sans-serif"],
       },
-    },
-    screens: {
-      xs: "480px",
-      ss: "620px",
-      sm: "768px",
-      md: "1060px",
-      lg: "1200px",
-      xl: "1700px",
     },
   },
   plugins: [],
