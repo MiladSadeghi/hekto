@@ -16,7 +16,6 @@ module.exports = {
         "blue-cc": "#2f1ac4",
         "sky-blue": "#f2f5ff",
         "pantone-purple": "#e0d3f5",
-        "off-blue": "#151875",
       },
       fontFamily: {
         JosefinSans: ["Josefin Sans", "serif"],
@@ -24,5 +23,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

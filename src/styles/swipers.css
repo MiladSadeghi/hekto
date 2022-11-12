@@ -13,3 +13,20 @@
 .header .swiper-pagination-bullet-active {
   background: #FB2E86;
 }
+
+.featured-products .swiper-wrapper {
+  margin-bottom: 40px;
+}
+
+.featured-products .swiper-pagination-bullet {
+  background: #FEBAD7;
+  border-radius: 10px;
+  width: 16px;
+  height: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.featured-products .swiper-pagination-bullet-active {
+  background: #FB2E86;
+  width: 24px;
+}
