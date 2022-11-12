@@ -15,7 +15,7 @@ const FeaturedProducts:FC = ():ReactElement => {
   )
   
   return (
-    <div className='container mx-auto mt-20 mb-10'>
+    <div className='container mx-auto mt-20 mb-14'>
       <h1 className='font-JosefinSans text-center text-[#1A0B5B] text-[42px] font-bold mb-10'>Featured Products</h1>
       <Swiper
         modules={[Pagination]}

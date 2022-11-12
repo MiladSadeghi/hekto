@@ -23,4 +23,13 @@
   .FPCard-hover-button {
     @apply absolute -bottom-9 left-1/2 -translate-x-1/2 font-JosefinSans text-xs text-white bg-[#08D15F] px-3 py-2 rounded-sm group-hover:bottom-2 duration-300;
   }
+  .LPCard-hover-image {
+    @apply group-hover:bg-[#fff] duration-300 bg-[#F7F7F7] relative overflow-hidden;
+  }
+  .LPCard-hover-icons {
+    @apply absolute flex flex-col bottom-0 left-2 group-hover:bottom-3 duration-300 opacity-0 group-hover:opacity-100;
+  }
+  .LPCard-hover-icon {
+    @apply mr-1 text-[#1aa8ee] text-[17px] p-2 box-content duration-300  flex items-center justify-center rounded-full hover:bg-[#eeeffba7] font-bold hover:text-[#2f1ac4];
+  }
 }

@@ -20,6 +20,7 @@ export type Product = {
   title: string;
   images?: any;
   discount?: string;
+  section?: string;
 }
 
 export interface ISliceInitialState {
