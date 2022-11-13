@@ -13,7 +13,7 @@ const LatestProducts = () => {
   useEffect(() => {
     const products: Product[] = Products.filter(product => product.category === "Leatest Products" && product.section === section);
     setLatestProducts(products);
-  }, [section])
+  }, [section, Products])
 
   if (latestProducts.length === 0) return null;
   return (

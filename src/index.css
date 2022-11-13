@@ -6,13 +6,13 @@
 
 @layer base {
   .FPCard-hover-text {
-    @apply group-hover:text-[#fff] duration-300;
+    @apply group-hover:text-white duration-300;
   }
   .FPCard-hover-image {
     @apply bg-[#F6F7FB] group-hover:bg-[#F7F7F7] ease-in-out duration-300 overflow-hidden;
   }
   .FPCard-hover-body {
-    @apply relative before:bg-blue-cc before:absolute before:w-full before:h-full before:left-0 before:top-full before:duration-300 group-hover:before:top-0 before:-z-10 before:opacity-0 group-hover:before:opacity-100 ease-in-out z-10 overflow-hidden;
+    @apply relative before:bg-blue-cc before:absolute before:w-full before:h-full before:left-0 before:top-full before:duration-300 group-hover:before:top-0 before:-z-10 before:opacity-0 group-hover:before:opacity-100 ease-in-out z-10 overflow-hidden h-full;
   }
   .FPCard-hover-icons {
     @apply absolute flex top-3 -left-10 group-hover:left-3 duration-300 opacity-0 group-hover:opacity-100;
