@@ -1,4 +1,5 @@
 import React from 'react'
+import DiscountItems from './DiscountItems';
 import FeaturedProducts from './FeaturedProducts';
 import Header from './header';
 import LatestProducts from './LatestProducts';
@@ -15,6 +16,7 @@ const Home = () => {
       <ShopOffers />
       <UniqueFurniture />
       <TrendingProducts />
+      <DiscountItems />
     </>
   )
 }

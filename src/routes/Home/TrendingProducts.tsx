@@ -17,7 +17,7 @@ const TrendingProducts = () => {
         <div className='columns-4 gap-12 mb-10'>
           {
             cantileverChairs.map((product: any) => (
-              <CCTPCards data={product}  />
+              <CCTPCards key={product.id} data={product}  />
             ))
           }
         </div>
