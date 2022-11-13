@@ -32,4 +32,7 @@
   .LPCard-hover-icon {
     @apply mr-1 text-[#1aa8ee] text-[17px] p-2 box-content duration-300  flex items-center justify-center rounded-full hover:bg-[#eeeffba7] font-bold hover:text-[#2f1ac4];
   }
+  .UF-list-marker {
+    @apply before:w-2 before:h-2 before:rounded-full  before:-left-6 before:top-[.42rem] before:absolute relative ml-6 mb-3 marker:text-3xl font-Lato text-sm text-[#ACABC3];
+  }
 }

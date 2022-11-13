@@ -3,6 +3,7 @@ import FeaturedProducts from './FeaturedProducts';
 import Header from './header';
 import LatestProducts from './LatestProducts';
 import ShopOffers from './ShopOffers';
+import UniqueFurniture from './UniqueFurniture';
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <FeaturedProducts />
       <LatestProducts />
       <ShopOffers />
+      <UniqueFurniture />
     </>
   )
 }
