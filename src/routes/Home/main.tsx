@@ -3,6 +3,7 @@ import FeaturedProducts from './FeaturedProducts';
 import Header from './header';
 import LatestProducts from './LatestProducts';
 import ShopOffers from './ShopOffers';
+import TrendingProducts from './TrendingProducts';
 import UniqueFurniture from './UniqueFurniture';
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
       <LatestProducts />
       <ShopOffers />
       <UniqueFurniture />
+      <TrendingProducts />
     </>
   )
 }

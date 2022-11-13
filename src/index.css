@@ -35,4 +35,13 @@
   .UF-list-marker {
     @apply before:w-2 before:h-2 before:rounded-full  before:-left-6 before:top-[.42rem] before:absolute relative ml-6 mb-3 marker:text-3xl font-Lato text-sm text-[#ACABC3];
   }
+  .TP-banner-h5 {
+    @apply font-JosefinSans text-navy-blue font-semibold text-[26px];
+  }
+  .TP-banner-p {
+    @apply font-Lato text-pink-cc font-semibold text-base relative inline-block after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-pink-cc;
+  }
+  .TP-banner-img {
+    @apply absolute right-0 bottom-0;
+  }
 }
