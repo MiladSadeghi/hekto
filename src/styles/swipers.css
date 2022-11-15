@@ -30,3 +30,22 @@
   background: #FB2E86;
   width: 24px;
 }
+
+.top-categories .swiper-wrapper {
+  margin-bottom: 40px;
+}
+
+.top-categories .swiper-pagination-bullet {
+  border-radius: 50% !important;
+  background: none;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #FB2E86;
+  margin-right: 10px !important;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.top-categories .swiper-pagination-bullet-active {
+  background: #FB2E86;
+}
