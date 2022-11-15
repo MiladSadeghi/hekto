@@ -47,4 +47,7 @@
   .DI-selected {
     @apply !text-pink-cc relative inline-block border-b-[1px] border-pink-cc; 
   }
+  .footer-li {
+    @apply text-[#8A8FB9] text-base font-Lato mb-3;
+  }
 }

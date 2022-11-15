@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import { useAppDispatch, useAppSelector } from './redux/hook';
 import { getProducts } from './redux/slices/products';
@@ -17,6 +18,7 @@ function App() {
     <>
       <Navbar />
       <PagesRoute />
+      <Footer />
     </>
   );
 }

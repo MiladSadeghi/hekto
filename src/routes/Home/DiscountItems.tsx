@@ -37,7 +37,7 @@ const DiscountItems = () => {
           <div className='grid grid-cols-2 gap-5'>
             {
               discountItem[0]?.specifications.slice(0,4).map((item: string) => (
-                <div className='flex'>
+                <div className='flex' key={item}>
                   <BiCheck className=' text-2xl text-[#7569B2]' />
                   <p className='w-full ml-2 text-[#B8B8DC]'>{item}</p>
                 </div>
