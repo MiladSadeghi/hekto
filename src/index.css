@@ -50,4 +50,7 @@
   .footer-li {
     @apply text-[#8A8FB9] text-base font-Lato mb-3;
   }
+  .form-input {
+    @apply focus-within:outline-none w-full mb-6 border-[#C2C5E1] border-[1px] px-4 py-3;
+  }
 }
