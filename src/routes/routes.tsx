@@ -7,6 +7,7 @@ import Contact from './Contact'
 import Faq from './Faq'
 import Home from './Home/main'
 import NotFound from './NotFound'
+import OrderComplete from './OrderComplete'
 
 const PagesRoute:FC = (): ReactElement  => {
   return (
@@ -18,6 +19,7 @@ const PagesRoute:FC = (): ReactElement  => {
       <Route path='/contact-us' element={<Contact />} />
       <Route path='/404' element={<NotFound />} />
       <Route path='/faq' element={<Faq />} />
+      <Route path='/order-complete' element={<OrderComplete />} />
     </Routes>
   )
 }
