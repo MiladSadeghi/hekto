@@ -53,4 +53,7 @@
   .form-input {
     @apply focus-within:outline-none w-full mb-6 border-[#C2C5E1] border-[1px] px-4 py-3;
   }
+  .contact-in-touch {
+    @apply focus-within:outline-none border-[1px] border-[#A4B6C8] py-2 px-3;
+  }
 }
