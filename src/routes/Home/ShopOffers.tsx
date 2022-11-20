@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
 import FreeDeliveryIMG from "../../images/free-delivery.png";
 import CashBackIMG from "../../images/cash-back.png";
 import QualityProductIMG from "../../images/quality-product.png";
 import Support from "../../images/24-7-support.png";
-import { ShopOfferContent } from '../../types/public.types';
+import { ShopOfferContent, TShopOffer } from '../../types/public.types';
 
-const ShopOffers = () => {
+const ShopOffers:FC<TShopOffer> = ({sectionTitle, classes}) => {
   const content: ShopOfferContent[] = [
     {text: "For orders above 50%, we will have free shipping.", title: "Free Delivery", image: FreeDeliveryIMG},
     {text: "If you are not satisfied, we will refund your money.", title: "100% Cash Back", image: CashBackIMG},
@@ -16,7 +16,7 @@ const ShopOffers = () => {
   return (
     <div className='mt-14 mb-40'>
       <div className='container mx-auto'>
-        <h1 className='font-JosefinSans text-center text-[#1A0B5B] text-[42px] font-bold mb-20'>What's Hekto Offer?</h1>
+        <h1 className={classes}>{sectionTitle}</h1>
         <div className='flex items-center justify-center'>
           <div className='columns-4 gap-y-4'>
             {

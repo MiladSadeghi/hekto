@@ -49,3 +49,22 @@
 .top-categories .swiper-pagination-bullet-active {
   background: #FB2E86;
 }
+
+.about-us .swiper-wrapper {
+  margin-bottom: 70px;
+}
+
+.about-us .swiper-pagination-bullet {
+  border-radius: 3px !important;
+  height: 5px;
+  padding: 0 10px;
+  background: #FF75B0;
+  margin-right: 5px !important;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.about-us .swiper-pagination-bullet-active {
+  background: #FB2E86;
+  padding: 0 15px;
+}

@@ -9,3 +9,8 @@ export type ShopOfferContent = {
   title: string, 
   image: string
 }
+
+export type TShopOffer = {
+  sectionTitle: React.ReactNode,
+  classes: string
+}
