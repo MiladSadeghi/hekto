@@ -11,7 +11,7 @@ const LatestProducts = () => {
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const products: Product[] = Products.filter(product => product.category === "Leatest Products" && product.section === section);
+    const products: Product[] = Products.filter((product:Product) => product.category === "Leatest Products" && product.section === section);
     setLatestProducts(products);
   }, [section, Products])
 
@@ -26,7 +26,7 @@ const LatestProducts = () => {
       </div>
       <div className='mt-7 grid grid-cols-3 gap-x-10 gap-y-20'>
         {
-          latestProducts.map(product => 
+          latestProducts.map((product:Product) => 
             <LPCards data={product} key={product.id} />
           )
         }

@@ -4,11 +4,12 @@ import { useAppSelector } from '../../redux/hook'
 import watch from "../../images/watch-banner.png"
 import buff from "../../images/buff-banner.png";
 import EXTPCards from '../../components/EXTPCards';
+import { Product } from '../../types/IProducts.interface';
 
 const TrendingProducts = () => {
   const {products} = useAppSelector(state => state.product);
-  const cantileverChairs = products.filter(product => (product.category === "Trending Products" && product.section === "cantilever"));
-  const executiveChairs = products.filter(product => product.category === "Trending Products" && product.section === "executive");
+  const cantileverChairs = products.filter((product: Product) => (product.category === "Trending Products" && product.section === "cantilever"));
+  const executiveChairs = products.filter((product: Product) => product.category === "Trending Products" && product.section === "executive");
 
   return (
     <div className='container mx-auto mt-24'>
@@ -16,7 +17,7 @@ const TrendingProducts = () => {
       <div className='flex flex-col'>
         <div className='columns-4 gap-12 mb-10'>
           {
-            cantileverChairs.map((product: any) => (
+            cantileverChairs.map((product: Product) => (
               <CCTPCards key={product.id} data={product}  />
             ))
           }
@@ -35,7 +36,7 @@ const TrendingProducts = () => {
           <div className='col-span-2'>
             <div className='flex flex-col justify-between h-full'>
               {
-                executiveChairs.map((product: any) => (
+                executiveChairs.map((product: Product) => (
                   <EXTPCards key={product.id} data={product}  />
                 ))
               }

@@ -12,8 +12,7 @@ function App() {
   useEffect(() => {
     dispatch(getProducts());
   }, [])
-
-  if (loading) return null;
+  
   return (
     <>
       <Navbar />

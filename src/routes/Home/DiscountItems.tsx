@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { discountSection } from '../../enums/public.enum';
 import { useAppSelector } from '../../redux/hook';
 import {BiCheck} from "react-icons/bi";
+import { Product } from '../../types/IProducts.interface';
 
 const DiscountItems = () => {
   const [section, setSection] = useState<discountSection>(discountSection.WoodChair);
@@ -9,7 +10,7 @@ const DiscountItems = () => {
   const [discountItem, setDiscountItem] = useState<any>([])
 
   function changeItem(section: string):any {
-    return products.filter(product => product.category === 'Discount Item' && product.section === section)
+    return products.filter((product: Product) => product.category === 'Discount Item' && product.section === section)
   }
 
   useEffect(() => {

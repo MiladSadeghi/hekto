@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import About from './About'
 import SignIn from './Account/SignIn'
 import SignUp from './Account/SignUp'
@@ -8,6 +8,7 @@ import Faq from './Faq'
 import Home from './Home/main'
 import NotFound from './NotFound'
 import OrderComplete from './OrderComplete'
+import ProductDetails from './Products/ProductDetails'
 
 const PagesRoute:FC = (): ReactElement  => {
   return (
@@ -20,6 +21,8 @@ const PagesRoute:FC = (): ReactElement  => {
       <Route path='/404' element={<NotFound />} />
       <Route path='/faq' element={<Faq />} />
       <Route path='/order-complete' element={<OrderComplete />} />
+      <Route path='/product-details/:id' element={<ProductDetails />} />
+      <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   )
 }

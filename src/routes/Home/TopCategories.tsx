@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pagination } from 'swiper';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import { useAppSelector } from '../../redux/hook';
+import { Product } from '../../types/IProducts.interface';
+import TCCards from '../../components/TCCards';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import '../../styles/swipers.css';
-import TCCards from '../../components/TCCards';
 
 const TopCategories = () => {
-  const {products} = useAppSelector(state => state.product);
-  const [featuredProducts] = useState(() => 
-    products.filter(item => item.category === "Top Categories")
-  )
+
+  const {products: Products} = useAppSelector(state => state.product);
+  const [topCategories, setTopCategories] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const products: Product[] = Products.filter((product:Product) => product.category === "Featured Products");
+    setTopCategories(products);
+  }, [Products])
 
   return (
     <div className='container mx-auto mt-24'>
@@ -26,7 +31,7 @@ const TopCategories = () => {
         className="mySwiper top-categories px-2"
       >
         {
-          featuredProducts.map(product => (
+          topCategories.map((product:Product) => (
             <SwiperSlide key={product.id}>
                 <TCCards data={product} />
             </SwiperSlide>

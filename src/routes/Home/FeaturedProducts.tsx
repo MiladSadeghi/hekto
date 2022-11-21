@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 
@@ -7,12 +7,16 @@ import 'swiper/css/pagination';
 import '../../styles/swipers.css';
 import { useAppSelector } from '../../redux/hook';
 import FPCards from '../../components/FPCards';
+import { Product } from '../../types/IProducts.interface';
 
-const FeaturedProducts:FC = ():ReactElement => {
-  const {products} = useAppSelector(state => state.product);
-  const [featuredProducts] = useState(() => 
-    products.filter(item => item.category === "Featured Products")
-  )
+const FeaturedProducts:FC = ():ReactElement | null => {
+  const {products: Products} = useAppSelector(state => state.product);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const products: Product[] = Products.filter((product:Product) => product.category === "Featured Products");
+    setFeaturedProducts(products);
+  }, [Products])
   
   return (
     <div className='container mx-auto mt-20 mb-14'>
@@ -26,7 +30,7 @@ const FeaturedProducts:FC = ():ReactElement => {
         className="mySwiper featured-products"
       >
         {
-          featuredProducts.map(product => (
+          featuredProducts.map((product:Product) => (
             <SwiperSlide key={product.id}>
                 <FPCards data={product} />
             </SwiperSlide>

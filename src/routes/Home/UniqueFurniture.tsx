@@ -1,9 +1,10 @@
 import React from 'react'
 import { useAppSelector } from '../../redux/hook';
+import { Product } from '../../types/IProducts.interface';
 
 const UniqueFurniture = () => {
   const {products} = useAppSelector(state => state.product);
-  const uniqueFurniture: any = products.find(product => product.id === "09346776");
+  const uniqueFurniture: any = products.find((product: Product) => product.id === "09346776");
 
   if (uniqueFurniture === undefined) return null
   return (
