@@ -21,6 +21,7 @@ export type Product = {
   images?: any;
   discount?: string;
   section?: string;
+  comments?: [];
 }
 
 export interface ISliceInitialState {
