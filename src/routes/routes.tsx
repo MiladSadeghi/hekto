@@ -9,6 +9,7 @@ import Home from './Home/main'
 import NotFound from './NotFound'
 import OrderComplete from './OrderComplete'
 import ProductDetails from './Products/ProductDetails'
+import ProductsList from './Products/ProductsList'
 
 const PagesRoute:FC = (): ReactElement  => {
   return (
@@ -22,6 +23,7 @@ const PagesRoute:FC = (): ReactElement  => {
       <Route path='/faq' element={<Faq />} />
       <Route path='/order-complete' element={<OrderComplete />} />
       <Route path='/product-details/:id' element={<ProductDetails />} />
+      <Route path='/products/*' element={<ProductsList />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   )

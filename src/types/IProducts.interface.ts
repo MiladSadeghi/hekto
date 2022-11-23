@@ -26,6 +26,7 @@ export type Product = {
 
 export interface ISliceInitialState {
   loading: false | true;
-  products: Product[],
-  error: any
+  products?: Product[],
+  error: any,
+  listedProduct?: Product[],
 }

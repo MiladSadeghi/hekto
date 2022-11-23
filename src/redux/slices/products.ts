@@ -33,8 +33,8 @@ const productSlice = createSlice({
       state.loading = true;
     })
     builder.addCase(getProducts.fulfilled, (state, action) => {
-      state.loading = false;
       state.products = action.payload;
+      state.loading = false;
     })
     builder.addCase(getProducts.rejected, (state, action) => {
       state.loading = false;
