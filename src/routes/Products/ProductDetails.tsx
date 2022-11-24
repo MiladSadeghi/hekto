@@ -1,3 +1,4 @@
+import { replace } from 'formik';
 import React, { FC, ReactElement, useEffect, useState } from 'react'
 import { AiFillInstagram, AiFillStar, AiOutlineArrowRight, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
 import { GrFacebookOption, GrTwitter } from 'react-icons/gr';
@@ -50,7 +51,7 @@ const ProductDetails:FC = ():ReactElement | null => {
       setProductDetails(product);
       if (product.comments) setStars(votes(product.comments))
     } else if (product === undefined && Products.length !== 0) {
-      navigate("/404")
+      navigate("/404" , {replace: false})
     }
   }, [Products])
 
@@ -102,7 +103,7 @@ const ProductDetails:FC = ():ReactElement | null => {
               </div>
               <div className='flex mt-10'>
                 <p className={`${!productDetails.discount && "hidden"} font-JosefinSans text-lg text-navy-blue font-semibold`}>${productDetails.discount}</p>
-                <p className={`${productDetails.discount && "line-through text-pink-cc"} font-JosefinSans text-lg text-navy-blue font-semibold `}>${productDetails.price}</p>
+                <p className={`${productDetails.discount && "line-through text-pink-cc ml-3"} font-JosefinSans text-lg text-navy-blue font-semibold `}>${productDetails.price}</p>
               </div>
                 {
                   productDetails.colors && 

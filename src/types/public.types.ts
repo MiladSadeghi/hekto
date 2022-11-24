@@ -14,3 +14,5 @@ export type TShopOffer = {
   sectionTitle: React.ReactNode,
   classes: string
 }
+
+export type TProductListSort = "regular" | "highest" | "lowest"
