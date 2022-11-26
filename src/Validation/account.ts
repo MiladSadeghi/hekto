@@ -17,3 +17,8 @@ export const SignUpSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Confirm Password does not match'),
   acceptTerms: yup.bool().oneOf([true], 'Accept Terms is required')
 })
+
+export const SignInSchema = yup.object().shape({
+  email: yup.string().required().email('Email is invalid'),
+  password: yup.string().required('Password is required')
+})
