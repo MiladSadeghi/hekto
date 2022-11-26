@@ -1,20 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { child, get, ref } from "firebase/database";
-import { database } from "../../helper/firebase.config";
+import { realTimeDB } from "../../helper/firebase.config";
 import { ISliceInitialState } from "../../types/IProducts.interface"
 
 export const getProducts = createAsyncThunk("product/getAll", async () => {
-  const dbRef = ref(database);
+  const dbRef = ref(realTimeDB);
   return get(child(dbRef, `product/`))
-  .then((snapshot) => {
-    if (snapshot.exists()) {
-      return snapshot.val()
-    } else {
-      return "Nothing Found"
-    }
-  }).catch((error) => {
-    return "Check Your Internet Connection."
-  });
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val()
+      } else {
+        return "Nothing Found"
+      }
+    }).catch((error) => {
+      return "Check Your Internet Connection."
+    });
 })
 
 
@@ -26,7 +26,7 @@ const initialState: ISliceInitialState = {
 
 const productSlice = createSlice({
   name: "products",
-  initialState, 
+  initialState,
   reducers: {},
   extraReducers(builder) {
     builder.addCase(getProducts.pending, (state) => {
