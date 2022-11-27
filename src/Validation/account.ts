@@ -22,3 +22,19 @@ export const SignInSchema = yup.object().shape({
   email: yup.string().required().email('Email is invalid'),
   password: yup.string().required('Password is required')
 })
+
+export const AccountErrors = (error: any): string => {
+  switch (error) {
+    case "auth/wrong-password":
+      return "Your email or password is wrong!"
+    case "auth/too-many-requests":
+      return "To many request. try again later..."
+    case "auth/user-not-found":
+      return "You should sign up first."
+    case "auth/email-already-in-use":
+      return "Your email is already registered. try another email..."
+
+    default:
+      return "Try again later..."
+  }
+}

@@ -1,25 +1,14 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useFormik } from "formik";
-import React, { FC, ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
-import { auth } from "../../helper/firebase.config";
+import { doc, getDoc } from "firebase/firestore";
+import { replace, useFormik } from "formik";
+import { FC, ReactElement } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BarLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { auth, fireStoreDB } from "../../helper/firebase.config";
 import "../../index.css";
-import { SignInSchema } from "../../Validation/account";
+import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
-
-const onSubmit = async (
-  { email, password }: { email: string; password: string },
-  actions: any
-) => {
-  try {
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
-    actions.setSubmitting(false);
-  } catch (error) {
-    console.log(error);
-    actions.setSubmitting(false);
-  }
-};
 
 const SignIn: FC = (): ReactElement => {
   const {
@@ -38,6 +27,24 @@ const SignIn: FC = (): ReactElement => {
     validationSchema: SignInSchema,
     onSubmit,
   });
+
+  const navigate = useNavigate();
+
+  async function onSubmit(
+    { email, password }: { email: string; password: string },
+    actions: any
+  ) {
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      const docRef = doc(fireStoreDB, "users", user.user.uid);
+      const docSnap = await getDoc(docRef);
+      toast.success(`Welcome back ${docSnap.data()?.userName}`);
+      navigate("/", { replace: true });
+    } catch (error: any) {
+      toast.error(AccountErrors(error.code));
+    }
+    actions.setSubmitting(false);
+  }
 
   return (
     <>
@@ -83,10 +90,14 @@ const SignIn: FC = (): ReactElement => {
             </p>
             <button
               type="submit"
-              className="py-3 text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75"
+              className="text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75 flex items-center justify-center h-[48px] rounded-[3px]"
               disabled={isSubmitting}
             >
-              Sign In
+              {isSubmitting ? (
+                <BarLoader color="#fff" height={3} width={150} />
+              ) : (
+                "Sign In"
+              )}
             </button>
             <div className="text-center mt-5">
               <Link to={"/signup"} className="text-base text-[#9096B2] ">

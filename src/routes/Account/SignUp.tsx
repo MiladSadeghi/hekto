@@ -2,36 +2,13 @@ import React, { FC, ReactElement } from "react";
 import Logos from "../Home/Logos";
 import "../../index.css";
 import { useFormik } from "formik";
-import { SignUpSchema } from "../../Validation/account";
+import { AccountErrors, SignUpSchema } from "../../Validation/account";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, fireStoreDB } from "../../helper/firebase.config";
 import { setDoc, doc } from "firebase/firestore";
-import { Link } from "react-router-dom";
-
-const onSubmit = async (
-  {
-    email,
-    password,
-    userName,
-  }: { email: string; password: string; userName: string },
-  actions: any
-) => {
-  try {
-    const registredUser = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    await setDoc(doc(fireStoreDB, "users", registredUser.user.uid), {
-      userName,
-      uid: registredUser.user.uid,
-    });
-    actions.setSubmitting(false);
-  } catch (error) {
-    console.log(error);
-    actions.setSubmitting(false);
-  }
-};
+import { Link, Router, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { BarLoader } from "react-spinners";
 
 const SignUp: FC = (): ReactElement => {
   const {
@@ -53,6 +30,34 @@ const SignUp: FC = (): ReactElement => {
     validationSchema: SignUpSchema,
     onSubmit,
   });
+
+  const navigate = useNavigate();
+
+  async function onSubmit(
+    {
+      email,
+      password,
+      userName,
+    }: { email: string; password: string; userName: string },
+    actions: any
+  ) {
+    try {
+      const registredUser = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await setDoc(doc(fireStoreDB, "users", registredUser.user.uid), {
+        userName,
+        uid: registredUser.user.uid,
+      });
+      toast.success("Your register complete.");
+      navigate("/", { replace: true });
+    } catch (error: any) {
+      toast.error(AccountErrors(error.code));
+    }
+    actions.setSubmitting(false);
+  }
 
   return (
     <div>
@@ -137,15 +142,29 @@ const SignUp: FC = (): ReactElement => {
                   htmlFor="acceptTerms"
                   className="ml-2 text-base font-medium text-gray-900 dark:text-gray-300 font-JosefinSans"
                 >
-                  I agree with the terms and conditions.
+                  I agree with the{" "}
+                  <span
+                    className={`${
+                      errors.acceptTerms || touched.acceptTerms
+                        ? "text-red-600"
+                        : "text-blue-800"
+                    }`}
+                  >
+                    terms and conditions
+                  </span>
+                  .
                 </label>
               </div>
               <button
                 type="submit"
-                className="py-3 text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75"
+                className="text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75 flex items-center justify-center h-[48px] rounded-[3px]"
                 disabled={isSubmitting}
               >
-                Sign Up
+                {isSubmitting ? (
+                  <BarLoader color="#fff" height={3} width={150} />
+                ) : (
+                  "Sign Up"
+                )}
               </button>
               <div className="mt-5 text-center">
                 <Link to={"/signin"} className="text-[#9096B2] text-base">

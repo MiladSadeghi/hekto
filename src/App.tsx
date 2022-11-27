@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { getProducts } from "./redux/slices/products";
 import PagesRoute from "./routes/routes";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const { loading } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function App() {
       <Navbar />
       <PagesRoute />
       <Footer />
+      <ToastContainer />
     </>
   );
 }
