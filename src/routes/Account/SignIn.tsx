@@ -1,16 +1,21 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { replace, useFormik } from "formik";
+import { useFormik } from "formik";
 import { FC, ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { auth, fireStoreDB } from "../../helper/firebase.config";
+import { auth } from "../../helper/firebase.config";
+import { getUserData } from "../../helper/firebase.data";
 import "../../index.css";
+import { useAppDispatch } from "../../redux/hook";
+import { USER_LOGGED_IN } from "../../redux/slices/user";
 import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
 
 const SignIn: FC = (): ReactElement => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     values,
     handleChange,
@@ -28,17 +33,15 @@ const SignIn: FC = (): ReactElement => {
     onSubmit,
   });
 
-  const navigate = useNavigate();
-
   async function onSubmit(
     { email, password }: { email: string; password: string },
     actions: any
   ) {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
-      const docRef = doc(fireStoreDB, "users", user.user.uid);
-      const docSnap = await getDoc(docRef);
-      toast.success(`Welcome back ${docSnap.data()?.userName}`);
+      const userData = await getUserData(user.user.uid);
+      toast.success(`Welcome back ${userData?.userName}`);
+      dispatch(USER_LOGGED_IN(userData));
       navigate("/", { replace: true });
     } catch (error: any) {
       toast.error(AccountErrors(error.code));

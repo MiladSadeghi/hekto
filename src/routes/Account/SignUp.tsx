@@ -4,11 +4,11 @@ import "../../index.css";
 import { useFormik } from "formik";
 import { AccountErrors, SignUpSchema } from "../../Validation/account";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, fireStoreDB } from "../../helper/firebase.config";
-import { setDoc, doc } from "firebase/firestore";
-import { Link, Router, useNavigate } from "react-router-dom";
+import { auth } from "../../helper/firebase.config";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BarLoader } from "react-spinners";
+import { createUserData } from "../../helper/firebase.data";
 
 const SignUp: FC = (): ReactElement => {
   const {
@@ -47,10 +47,7 @@ const SignUp: FC = (): ReactElement => {
         email,
         password
       );
-      await setDoc(doc(fireStoreDB, "users", registredUser.user.uid), {
-        userName,
-        uid: registredUser.user.uid,
-      });
+      createUserData(registredUser.user.uid, "user", userName);
       toast.success("Your register complete.");
       navigate("/", { replace: true });
     } catch (error: any) {
