@@ -1,4 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { doc, getDoc } from "firebase/firestore";
+import { fireStoreDB } from "../../helper/firebase.config";
+
+
+export const getWishlist = createAsyncThunk("user/getWishlist", async (uid: string) => {
+  const docRef = doc(fireStoreDB, "users", uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data()?.wishlist;
+})
 
 const initialState = {
   userName: null,
@@ -6,11 +15,12 @@ const initialState = {
   guest: false,
   uid: null,
   wishlist: [],
-  cart: []
+  cart: [],
+  wishlistLoading: true,
 }
 
 const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     USER_LOGGED_IN(state, { payload }) {
@@ -26,10 +36,29 @@ const userSlice = createSlice({
       state.uid = payload.uid;
       state.isLoggedIn = true;
       state.userName = null;
-    }
-  }
+      state.wishlist = payload.wishlist;
+      state.cart = payload.cart;
+    },
+    ADD_TO_WISHLIST(state, { payload }) {
+      const wishlist: any = [...state.wishlist, payload];
+      state.wishlist = wishlist;
+    },
+    REMOVE_FROM_WISHLIST(state, { payload }) {
+      state.wishlist = payload;
+    },
+  },
+  extraReducers(builder) {
+    builder.addCase(getWishlist.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.wishlist = action.payload;
+      state.wishlistLoading = false;
+    })
+    builder.addCase(getWishlist.rejected, (state, action) => {
+      state.wishlistLoading = false;
+    })
+  },
 })
 
-export const { USER_LOGGED_IN, GUEST_LOGGED_IN } = userSlice.actions;
+export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } = userSlice.actions;
 
 export default userSlice.reducer;

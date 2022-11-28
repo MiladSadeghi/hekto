@@ -14,7 +14,7 @@ export type Product = {
   category: string;
   colors?: any,
   id: string | number;
-  imagesByColor? : any,
+  imagesByColor?: any,
   price: string;
   specifications: string[],
   title: string;

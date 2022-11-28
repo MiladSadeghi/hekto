@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import { useAppDispatch, useAppSelector } from "./redux/hook";
+import { useAppDispatch } from "./redux/hook";
 import { getProducts } from "./redux/slices/products";
 import PagesRoute from "./routes/routes";
 import "react-toastify/dist/ReactToastify.css";
