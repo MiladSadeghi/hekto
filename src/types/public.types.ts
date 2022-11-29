@@ -5,8 +5,8 @@ export type FCTypes = {
 }
 
 export type ShopOfferContent = {
-  text: string, 
-  title: string, 
+  text: string,
+  title: string,
   image: string
 }
 
@@ -15,4 +15,14 @@ export type TShopOffer = {
   classes: string
 }
 
-export type TProductListSort = "regular" | "highest" | "lowest"
+export type TProductListSort = "regular" | "highest" | "lowest";
+
+export type TCart = {
+  productID: string;
+  quantity: number
+};
+
+export type TUserData = {
+  wishlist: string[],
+  cart: TCart[]
+}

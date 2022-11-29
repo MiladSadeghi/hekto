@@ -8,7 +8,9 @@ import { auth } from "../../helper/firebase.config";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BarLoader } from "react-spinners";
-import { createUserData } from "../../helper/firebase.data";
+import { createUserData, getWishlistAndCart } from "../../helper/firebase.data";
+import { useAppSelector } from "../../redux/hook";
+import { TCart, TUserData } from "../../types/public.types";
 
 const SignUp: FC = (): ReactElement => {
   const {
@@ -32,6 +34,7 @@ const SignUp: FC = (): ReactElement => {
   });
 
   const navigate = useNavigate();
+  const { uid } = useAppSelector((state) => state.user);
 
   async function onSubmit(
     {
@@ -42,12 +45,19 @@ const SignUp: FC = (): ReactElement => {
     actions: any
   ) {
     try {
+      const guestData: TUserData = await getWishlistAndCart(uid);
       const registredUser = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      createUserData(registredUser.user.uid, "user", userName);
+      createUserData(
+        registredUser.user.uid,
+        "user",
+        guestData.wishlist,
+        guestData.cart,
+        userName
+      );
       toast.success("Your register complete.");
       navigate("/", { replace: true });
     } catch (error: any) {

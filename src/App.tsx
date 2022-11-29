@@ -28,7 +28,7 @@ function App() {
         dispatch(GUEST_LOGGED_IN(userData));
       } else if (!user) {
         const guestUser = await signInAnonymously(auth);
-        await createUserData(guestUser.user.uid, "guest");
+        await createUserData(guestUser.user.uid, "guest", [], []);
       }
     });
   }, []);

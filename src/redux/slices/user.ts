@@ -53,7 +53,11 @@ const userSlice = createSlice({
     ADD_QUANTITY(state, { payload }) {
       state.cart = payload;
     },
-
+    SET_WISHLIST_CART(state, { payload }) {
+      console.log(payload)
+      state.cart = payload.cart;
+      state.wishlist = payload.wishlist;
+    }
   },
   extraReducers(builder) {
     builder.addCase(getWishlist.fulfilled, (state, action) => {
@@ -67,6 +71,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART } = userSlice.actions;
+export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, SET_WISHLIST_CART } = userSlice.actions;
 
 export default userSlice.reducer;

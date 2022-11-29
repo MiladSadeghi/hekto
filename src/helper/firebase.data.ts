@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { ADD_TO_CART, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from "../redux/slices/user";
+import { ADD_TO_CART, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, SET_WISHLIST_CART } from "../redux/slices/user";
+import { TCart, TUserData } from "../types/public.types";
 import { fireStoreDB } from "./firebase.config";
 
 export const getUserData = async (uid: string) => {
@@ -9,13 +10,13 @@ export const getUserData = async (uid: string) => {
   return docSnap.data();
 }
 
-export const createUserData = async (uid: string, userType: string, userName?: string) => {
+export const createUserData = async (uid: string, userType: string, wishlist: string[], cart: TCart[], userName?: string) => {
   await setDoc(doc(fireStoreDB, "users", uid), {
     userName: userName ? userName : null,
     uid: uid,
     type: userType,
-    wishlist: [],
-    cart: []
+    wishlist,
+    cart
   });
 }
 
@@ -67,7 +68,7 @@ export const addToCart = async (uid: string, productID: string | number, dispatc
   try {
     const userRef = doc(fireStoreDB, `users/${uid}`);
     const userCart = await getCart(uid);
-    const isAvailable = userCart.filter((item: any) => item.productID === productID);
+    const isAvailable = userCart.some((item: any) => item.productID === productID);
     if (!isAvailable) {
       const cartItem = {
         productID,
@@ -83,5 +84,53 @@ export const addToCart = async (uid: string, productID: string | number, dispatc
     }
   } catch (error) {
     toast.update(id, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
+  }
+}
+
+export const getWishlistAndCart = async (uid: string): Promise<TUserData> => {
+  const docRef = doc(fireStoreDB, "users", uid);
+  const docSnap = await getDoc(docRef);
+  const data = docSnap.data();
+  const wishlist: string[] = data?.wishlist
+  const cart: TCart[] = data?.cart
+  return {
+    wishlist,
+    cart
+  }
+}
+
+export const guestToUser = async (userUid: string, guestData: TUserData) => {
+  const { wishlist: guestWishlist, cart: guestCart } = guestData;
+  const { wishlist: userWishlist, cart: userCart } = await getWishlistAndCart(userUid);
+
+  const compareCarts = [...userCart, ...guestCart];
+  const newCart = await compareCarts.reduce((acc: any, current: any) => {
+    const x = acc.find((item: any) => item.productID === current.productID);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
+
+  const arr = userWishlist.concat(guestWishlist);
+  const newWishlist = [...new Set(arr)];
+
+  SET_WISHLIST_CART({ newCart, newWishlist });
+  const userRef = doc(fireStoreDB, `users/${userUid}`);
+
+  if (newWishlist.length !== 0 && newCart.length !== 0) {
+    await updateDoc(userRef, {
+      cart: newCart,
+      wishlist: newWishlist
+    });
+  } else if (newWishlist.length !== 0) {
+    await updateDoc(userRef, {
+      wishlist: newWishlist
+    });
+  } else if (newCart.length !== 0) {
+    await updateDoc(userRef, {
+      cart: newCart,
+    });
   }
 }

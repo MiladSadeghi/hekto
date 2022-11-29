@@ -5,10 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { auth } from "../../helper/firebase.config";
-import { getUserData } from "../../helper/firebase.data";
+import {
+  getUserData,
+  getWishlistAndCart,
+  guestToUser,
+} from "../../helper/firebase.data";
 import "../../index.css";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { USER_LOGGED_IN } from "../../redux/slices/user";
+import { TUserData } from "../../types/public.types";
 import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
 
@@ -33,12 +38,16 @@ const SignIn: FC = (): ReactElement => {
     onSubmit,
   });
 
+  const { uid } = useAppSelector((state) => state.user);
+
   async function onSubmit(
     { email, password }: { email: string; password: string },
     actions: any
   ) {
     try {
+      const guestData: TUserData = await getWishlistAndCart(uid);
       const user = await signInWithEmailAndPassword(auth, email, password);
+      await guestToUser(user.user.uid, guestData);
       const userData = await getUserData(user.user.uid);
       toast.success(`Welcome back ${userData?.userName}`);
       dispatch(USER_LOGGED_IN(userData));
