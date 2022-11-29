@@ -46,6 +46,14 @@ const userSlice = createSlice({
     REMOVE_FROM_WISHLIST(state, { payload }) {
       state.wishlist = payload;
     },
+    ADD_TO_CART(state, { payload }) {
+      const cart: any = [...state.wishlist, payload];
+      state.cart = cart;
+    },
+    ADD_QUANTITY(state, { payload }) {
+      state.cart = payload;
+    },
+
   },
   extraReducers(builder) {
     builder.addCase(getWishlist.fulfilled, (state, action) => {
@@ -59,6 +67,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } = userSlice.actions;
+export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART } = userSlice.actions;
 
 export default userSlice.reducer;
