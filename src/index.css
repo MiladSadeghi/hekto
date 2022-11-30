@@ -59,4 +59,7 @@
   .selected-main-image {
     @apply !border-zinc-400 !border-2 !opacity-100;
   }
+  .wishlist-product-th {
+    @apply py-3 px-6 font-JosefinSans text-base text-[#999999] font-medium;
+  }
 }

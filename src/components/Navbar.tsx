@@ -51,8 +51,10 @@ const Navbar: FC = (): ReactElement => {
                 )}
               </div>
               <div className="flex items-center ml-3">
-                <p>Wishlist</p>
-                <BsFillSuitHeartFill className="ml-2 text-base" />
+                <Link to={"/wishlist"} className="flex">
+                  <p>Wishlist</p>
+                  <BsFillSuitHeartFill className="ml-2 text-base" />
+                </Link>
               </div>
               <div className="flex items-center ml-3">
                 <MdOutlineShoppingCart className="ml-2 text-lg" />

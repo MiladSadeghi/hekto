@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { fireStoreDB } from "../../helper/firebase.config";
 
 
@@ -60,13 +61,16 @@ const userSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    builder.addCase(getWishlist.pending, (state) => {
+      state.wishlistLoading = true;
+    })
     builder.addCase(getWishlist.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.wishlist = action.payload;
       state.wishlistLoading = false;
     })
     builder.addCase(getWishlist.rejected, (state, action) => {
       state.wishlistLoading = false;
+      toast.error("Please refresh the page")
     })
   },
 })
