@@ -13,7 +13,7 @@ type ProductImagesByColor = {
 export type Product = {
   category: string;
   colors?: any,
-  id: string | number;
+  id: string;
   imagesByColor?: any,
   price: string;
   specifications: string[],

@@ -1,13 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireStoreDB } from "../../helper/firebase.config";
+import { getCart } from "../../helper/firebase.data";
 
 
 export const getWishlist = createAsyncThunk("user/getWishlist", async (uid: string) => {
   const docRef = doc(fireStoreDB, "users", uid);
   const docSnap = await getDoc(docRef);
   return docSnap.data()?.wishlist;
+})
+
+export const clearUserCart = createAsyncThunk("user/clearCart", async (uid: string) => {
+  const id = toast.loading("Please wait...");
+  try {
+    const userRef = doc(fireStoreDB, `users/${uid}`);
+    await updateDoc(userRef, {
+      cart: [],
+    });
+    toast.update(id, { render: "Card clear successfully!", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
+  } catch (error) {
+    toast.update(id, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
+  }
+})
+
+export const removeCartItem = createAsyncThunk("user/removeCartItem", async ({ uid, productID }: { uid: string, productID: string }, { getState }) => {
+  const id = toast.loading("Please wait...");
+  try {
+    const cartItems = await getCart(uid);
+    const newCartItems = await cartItems.filter((item: any) => item.productID !== productID);
+    const userRef = doc(fireStoreDB, `users/${uid}`);
+    await updateDoc(userRef, {
+      cart: newCartItems,
+    });
+    toast.update(id, { render: "Card items removed!", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
+    return newCartItems
+  } catch (error) {
+    toast.update(id, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
+  }
 })
 
 const initialState = {
@@ -51,13 +81,27 @@ const userSlice = createSlice({
       const cart: any = [...state.wishlist, payload];
       state.cart = cart;
     },
-    ADD_QUANTITY(state, { payload }) {
-      state.cart = payload;
-    },
     SET_WISHLIST_CART(state, { payload }) {
-      console.log(payload)
       state.cart = payload.cart;
       state.wishlist = payload.wishlist;
+    },
+    REMOVE_FROM_CART(state, { payload }) {
+      state.cart = payload;
+    },
+    CHANGE_QT(state, { payload }) {
+      if (state.cart.some((item: any) => (item.productID === payload.id) && ((item.quantity + payload.amount) >= 1))) {
+        const cart: any = state.cart.map((cartItem: any) => {
+          if (cartItem.productID === payload.id) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity + payload.amount
+            }
+          } else {
+            return cartItem
+          }
+        })
+        state.cart = cart;
+      }
     }
   },
   extraReducers(builder) {
@@ -72,9 +116,21 @@ const userSlice = createSlice({
       state.wishlistLoading = false;
       toast.error("Please refresh the page")
     })
+    builder.addCase(clearUserCart.fulfilled, (state, action) => {
+      state.cart = [];
+    })
+    builder.addCase(clearUserCart.rejected, (state, action) => {
+      toast.error("Please refresh the page")
+    })
+    builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      state.cart = action.payload;
+    })
+    builder.addCase(removeCartItem.rejected, (state, action) => {
+      toast.error("Please refresh the page")
+    })
   },
 })
 
-export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, SET_WISHLIST_CART } = userSlice.actions;
+export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, SET_WISHLIST_CART, REMOVE_FROM_CART, CHANGE_QT } = userSlice.actions;
 
 export default userSlice.reducer;

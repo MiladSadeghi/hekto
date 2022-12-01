@@ -62,4 +62,7 @@
   .wishlist-product-th {
     @apply py-3 px-6 font-JosefinSans text-base text-[#999999] font-medium;
   }
+  .cart-product-th {
+    @apply py-3 px-6 font-JosefinSans text-xl text-navy-blue font-bold whitespace-pre;
+  }
 }

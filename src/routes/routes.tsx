@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import About from "./About";
 import SignIn from "./Account/SignIn";
 import SignUp from "./Account/SignUp";
+import Cart from "./Cart";
 import Contact from "./Contact";
 import Faq from "./Faq";
 import Home from "./Home/main";
@@ -26,6 +27,7 @@ const PagesRoute: FC = (): ReactElement => {
       <Route path="/product-details/:id" element={<ProductDetails />} />
       <Route path="/products/*" element={<ProductsList />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );

@@ -134,3 +134,19 @@ export const guestToUser = async (userUid: string, guestData: TUserData) => {
     });
   }
 }
+
+export const removeFromCart = async (uid: string, productID: string, dispatch: Function) => {
+  const id = toast.loading("Please wait...");
+  try {
+    const userRef = doc(fireStoreDB, `users/${uid}`);
+    const userCart = await getCart(uid);
+    const newCart = userCart.filter((item: any) => item.id !== productID) || []
+    await updateDoc(userRef, {
+      cart: newCart
+    });
+    dispatch(REMOVE_FROM_WISHLIST(newCart))
+    toast.update(id, { render: "Removed from Cart!.", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
+  } catch (error) {
+    toast.update(id, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
+  }
+}
