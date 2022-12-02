@@ -1,66 +1,26 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
-import { getCart, removeFromWishlist } from "../helper/firebase.data";
-import Loader from "../helper/Loader";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { Product } from "../types/IProducts.interface";
-import EmptyCart from "../images/cart.jpg";
+import React, { FC, ReactElement } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { Product } from "../../types/IProducts.interface";
 import { Link } from "react-router-dom";
 import { HiMinusSm, HiPlusSm } from "react-icons/hi";
-import { CHANGE_QT, clearUserCart, removeCartItem } from "../redux/slices/user";
+import {
+  CHANGE_CART_SITUATION,
+  CHANGE_QT,
+  clearUserCart,
+  removeCartItem,
+} from "../../redux/slices/user";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { TCart, ICartProps } from "../../types/public.types";
+import { ECartSituation } from "../../enums/public.enum";
 
-const Cart: FC = (): ReactElement => {
-  const { uid, cart } = useAppSelector((state) => state.user);
-  const { products } = useAppSelector((state) => state.product);
-  const [cartProducts, setCartProducts] = useState<any>();
+const Cart: FC<ICartProps> = ({
+  cartProducts,
+  cart,
+  totalCartPrice,
+}): ReactElement => {
+  const { uid, guest } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (uid && !!products.length) {
-      getCart(uid).then(async (item: any) => {
-        const cartProductsID = item.map((item1: any) => item1.productID);
-        const list = await products.filter((item2: Product) => {
-          return cartProductsID.includes(item2.id);
-        });
-        setCartProducts(list);
-      });
-    }
-  }, [products, uid]);
-
-  const cartRemove = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    productID: string | number
-  ) => {
-    e.currentTarget.disabled = true;
-    await removeFromWishlist(uid, productID, dispatch);
-    const list = await cartProducts.filter(
-      (item: any) => item.id !== productID
-    );
-    setCartProducts(list);
-    e.currentTarget.disabled = false;
-  };
-
-  const productTotalPrice = (id: string, price: string | undefined): string => {
-    const cartItem = cart.find((item: any) => item.productID === id);
-    return String(cartItem.quantity * Number(price));
-  };
-
-  const totalCartPrice = (): string => {
-    const pricesArray: any = [];
-    cartProducts.forEach((item1: any) =>
-      cart.forEach((item2: any) => {
-        if (item1.id === item2.productID) {
-          pricesArray.push((item1.price || item1.discount) * item2.quantity);
-        }
-      })
-    );
-    const totalPrice = pricesArray.reduce(
-      (x: number, y: number) => Number(x) + Number(y),
-      0
-    );
-    return totalPrice;
-  };
 
   const clearCart = async (e: any, uid: string) => {
     e.currentTarget.disabled = true;
@@ -69,17 +29,11 @@ const Cart: FC = (): ReactElement => {
     }
   };
 
-  if (cartProducts === undefined) return <Loader />;
-  if (cartProducts.length === 0 || cart.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center relative">
-        <img className="object-cover" src={EmptyCart} alt="wishlist empty" />
-        <h2 className="font-JosefinSans text-4xl mt-10 font-bold text-pink-cc absolute bottom-10">
-          Your Cart Are Empty!
-        </h2>
-      </div>
-    );
-  }
+  const productTotalPrice = (id: string, price: string | undefined): string => {
+    const cartItem = cart.find((item: any) => item.productID === id);
+    return String(cartItem!.quantity * Number(price));
+  };
+
   return (
     <div>
       <div className="bg-[#F6F5FF] py-16">
@@ -169,10 +123,10 @@ const Cart: FC = (): ReactElement => {
                           min={1}
                           className="outline-none w-10 text-center text-[#BEBFC2] bg-[#f5f5f6]"
                           value={(() => {
-                            const value = cart.find(
+                            const value: TCart | undefined = cart.find(
                               (item: any) => item.productID === product.id
                             );
-                            return value.quantity;
+                            return value?.quantity;
                           })()}
                           readOnly
                         />
@@ -223,15 +177,21 @@ const Cart: FC = (): ReactElement => {
                     Totals:
                   </p>
                   <p className="text-base font-Lato text-navy-blue">
-                    ${totalCartPrice()}
+                    ${totalCartPrice}
                   </p>
                 </div>
                 <p className="flex font-Lato text-xs text-[#8A91AB] items-center mt-4">
                   <IoIosCheckmarkCircle className="text-green-600 mr-2" />
                   Shipping & taxes calculated at checkout
                 </p>
-                <button className="bg-green-500 text-white font-bold font-Lato text-sm mt-6 w-full rounded-sm py-3">
-                  Proceed To Checkout
+                <button
+                  className="bg-green-500 text-white font-bold font-Lato text-sm mt-6 w-full rounded-sm py-3 disabled:opacity-75"
+                  disabled={guest && true}
+                  onClick={() =>
+                    dispatch(CHANGE_CART_SITUATION(ECartSituation.Second))
+                  }
+                >
+                  {guest ? "You should sign in first." : "Proceed To Checkout"}
                 </button>
               </div>
             </div>

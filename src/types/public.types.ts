@@ -26,3 +26,9 @@ export type TUserData = {
   wishlist: string[],
   cart: TCart[]
 }
+
+export interface ICartProps {
+  cartProducts: Product[],
+  cart: TCart[],
+  totalCartPrice: string
+}

@@ -3,12 +3,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import About from "./About";
 import SignIn from "./Account/SignIn";
 import SignUp from "./Account/SignUp";
-import Cart from "./Cart";
+import CartMain from "./Cart/main";
 import Contact from "./Contact";
 import Faq from "./Faq";
 import Home from "./Home/main";
 import NotFound from "./NotFound";
-import OrderComplete from "./OrderComplete";
 import ProductDetails from "./Products/ProductDetails";
 import ProductsList from "./Products/ProductsList";
 import Wishlist from "./Wishlist";
@@ -23,11 +22,10 @@ const PagesRoute: FC = (): ReactElement => {
       <Route path="/contact-us" element={<Contact />} />
       <Route path="/404" element={<NotFound />} />
       <Route path="/faq" element={<Faq />} />
-      <Route path="/order-complete" element={<OrderComplete />} />
       <Route path="/product-details/:id" element={<ProductDetails />} />
       <Route path="/products/*" element={<ProductsList />} />
       <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/cart" element={<Cart />} />
+      <Route path="/cart" element={<CartMain />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );

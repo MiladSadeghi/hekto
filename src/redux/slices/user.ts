@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { ECartSituation } from "../../enums/public.enum";
 import { fireStoreDB } from "../../helper/firebase.config";
 import { getCart } from "../../helper/firebase.data";
 
@@ -48,6 +49,7 @@ const initialState = {
   wishlist: [],
   cart: [],
   wishlistLoading: true,
+  cartSituation: ECartSituation.First
 }
 
 const userSlice = createSlice({
@@ -102,6 +104,9 @@ const userSlice = createSlice({
         })
         state.cart = cart;
       }
+    },
+    CHANGE_CART_SITUATION(state, { payload }) {
+      state.cartSituation = payload;
     }
   },
   extraReducers(builder) {
@@ -131,6 +136,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, SET_WISHLIST_CART, REMOVE_FROM_CART, CHANGE_QT } = userSlice.actions;
+export const { USER_LOGGED_IN, GUEST_LOGGED_IN, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, ADD_TO_CART, SET_WISHLIST_CART, REMOVE_FROM_CART, CHANGE_QT, CHANGE_CART_SITUATION } = userSlice.actions;
 
 export default userSlice.reducer;
