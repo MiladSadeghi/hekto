@@ -12,14 +12,18 @@ export const getWishlist = createAsyncThunk("user/getWishlist", async (uid: stri
   return docSnap.data()?.wishlist;
 })
 
-export const clearUserCart = createAsyncThunk("user/clearCart", async (uid: string) => {
+export const clearUserCart = createAsyncThunk("user/clearCart", async ({ uid, successMessage, orderComplete }: { uid: string, successMessage: string, orderComplete: boolean }) => {
   const id = toast.loading("Please wait...");
+  console.log(uid);
   try {
     const userRef = doc(fireStoreDB, `users/${uid}`);
     await updateDoc(userRef, {
       cart: [],
     });
-    toast.update(id, { render: "Card clear successfully!", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
+    toast.update(id, { render: successMessage, type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
+    if (orderComplete) {
+      return ECartSituation.Third
+    }
   } catch (error) {
     toast.update(id, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
   }
@@ -121,8 +125,9 @@ const userSlice = createSlice({
       state.wishlistLoading = false;
       toast.error("Please refresh the page")
     })
-    builder.addCase(clearUserCart.fulfilled, (state, action) => {
+    builder.addCase(clearUserCart.fulfilled, (state, action: any) => {
       state.cart = [];
+      state.cartSituation = action.payload;
     })
     builder.addCase(clearUserCart.rejected, (state, action) => {
       toast.error("Please refresh the page")

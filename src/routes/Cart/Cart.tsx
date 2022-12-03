@@ -25,13 +25,19 @@ const Cart: FC<ICartProps> = ({
   const clearCart = async (e: any, uid: string) => {
     e.currentTarget.disabled = true;
     if (window.confirm("Are you sure?")) {
-      dispatch(clearUserCart(uid));
+      dispatch(
+        clearUserCart({
+          uid,
+          successMessage: "Card clear successfully!",
+          orderComplete: false,
+        })
+      );
     }
   };
 
   const productTotalPrice = (id: string, price: string | undefined): string => {
     const cartItem = cart.find((item: any) => item.productID === id);
-    return String(cartItem!.quantity * Number(price));
+    return String((cartItem!.quantity * Number(price)).toFixed(2));
   };
 
   return (

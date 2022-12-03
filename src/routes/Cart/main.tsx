@@ -31,7 +31,9 @@ const CartMain = (): ReactElement => {
     cartProducts.forEach((item1: any) =>
       cart.forEach((item2: any) => {
         if (item1.id === item2.productID) {
-          pricesArray.push((item1.price || item1.discount) * item2.quantity);
+          pricesArray.push(
+            (Number(item1.price) || Number(item1.discount)) * item2.quantity
+          );
         }
       })
     );
@@ -39,11 +41,14 @@ const CartMain = (): ReactElement => {
       (x: number, y: number) => Number(x) + Number(y),
       0
     );
-    return totalPrice;
+    return String(Number(totalPrice).toFixed(2));
   };
 
   if (cartProducts === undefined) return <Loader />;
-  if (cartProducts.length === 0 || cart.length === 0) {
+  if (
+    (cartProducts.length === 0 || cart.length === 0) &&
+    cartSituation !== ECartSituation.Third
+  ) {
     return (
       <div className="flex flex-col items-center justify-center relative">
         <img className="object-cover" src={EmptyCart} alt="wishlist empty" />
@@ -62,7 +67,13 @@ const CartMain = (): ReactElement => {
           totalCartPrice={totalCartPrice()}
         />
       )}
-      {cartSituation === ECartSituation.Second && <Checkout />}
+      {cartSituation === ECartSituation.Second && (
+        <Checkout
+          cart={cart}
+          cartProducts={cartProducts}
+          totalCartPrice={totalCartPrice()}
+        />
+      )}
       {cartSituation === ECartSituation.Third && <OrderComplete />}
     </>
   );
