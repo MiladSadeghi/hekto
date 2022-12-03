@@ -55,9 +55,21 @@
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
     "@tailwindcss/line-clamp": "^0.4.2",
+    "css-select": "^5.1.0",
     "loader-utils": "^3.2.1",
-    "nth-check": ">=2.0.1",
-    "react-scripts": "^5.0.1",
+    "nth-check": "*",
+    "react-scripts": "*",
     "tailwindcss": "^3.2.2"
+  },
+  "overrides": {
+    "css-select": {
+      "nth-check": "*"
+    },
+    "react-scripts": {
+      "css-select": "*"
+    },
+    "@svgr/webpack": {
+      "css-select": "*"
+    }
   }
 }

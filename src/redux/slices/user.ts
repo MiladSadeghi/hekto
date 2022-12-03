@@ -14,7 +14,6 @@ export const getWishlist = createAsyncThunk("user/getWishlist", async (uid: stri
 
 export const clearUserCart = createAsyncThunk("user/clearCart", async ({ uid, successMessage, orderComplete }: { uid: string, successMessage: string, orderComplete: boolean }) => {
   const id = toast.loading("Please wait...");
-  console.log(uid);
   try {
     const userRef = doc(fireStoreDB, `users/${uid}`);
     await updateDoc(userRef, {

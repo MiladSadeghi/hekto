@@ -8,7 +8,8 @@ export const store: any = configureStore({
     product: productSlice,
     list: productRegularList,
     user: userSlice
-  }
+  },
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type RootState = ReturnType<typeof store.getState>
