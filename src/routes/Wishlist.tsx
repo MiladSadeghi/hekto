@@ -91,7 +91,7 @@ const Wishlist = () => {
                     className="w-[150px]"
                     src={
                       product.imagesByColor
-                        ? product.imagesByColor[product.colors[0].name][0]
+                        ? product.imagesByColor[product.colors!![0].name][0]
                         : product.images[0]
                     }
                     alt={product.title}

@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { createNonNullChain } from "typescript";
 import { ECartSituation } from "../../enums/public.enum";
 import { fireStoreDB } from "../../helper/firebase.config";
 import { getCart } from "../../helper/firebase.data";
+import { IUserSlice } from "../../types/user.types";
 
 
 export const getWishlist = createAsyncThunk("user/getWishlist", async (uid: string) => {
@@ -44,14 +46,13 @@ export const removeCartItem = createAsyncThunk("user/removeCartItem", async ({ u
   }
 })
 
-const initialState = {
+const initialState: IUserSlice = {
   userName: null,
   isLoggedIn: false,
   guest: false,
-  uid: null,
+  uid: "",
   wishlist: [],
   cart: [],
-  wishlistLoading: true,
   cartSituation: ECartSituation.First
 }
 
@@ -114,14 +115,11 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(getWishlist.pending, (state) => {
-      state.wishlistLoading = true;
     })
     builder.addCase(getWishlist.fulfilled, (state, action) => {
       state.wishlist = action.payload;
-      state.wishlistLoading = false;
     })
     builder.addCase(getWishlist.rejected, (state, action) => {
-      state.wishlistLoading = false;
       toast.error("Please refresh the page")
     })
     builder.addCase(clearUserCart.fulfilled, (state, action: any) => {

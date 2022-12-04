@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ISliceInitialState, Product } from "../../types/IProducts.interface";
 
-export const getRegularList = createAsyncThunk("product/regularList", async ({products, search}: {products: any, search: any}) => {
+export const getRegularList = createAsyncThunk("product/regularList", async ({ products, search }: { products: any, search: any }) => {
   const filteredProducts = products.filter((product: Product) => product.title.toLowerCase().includes(search.toLowerCase()))
   return filteredProducts
 })
@@ -41,6 +41,6 @@ const productRegularList = createSlice({
   },
 })
 
-export const {lowest, highest, regular} = productRegularList.actions;
+export const { lowest, highest, regular } = productRegularList.actions;
 
 export default productRegularList.reducer;

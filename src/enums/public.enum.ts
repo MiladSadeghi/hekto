@@ -9,3 +9,10 @@ export enum ECartSituation {
   Second = "checkout",
   Third = "order complete"
 }
+
+export enum ELatestSection {
+  NewArrival = "New Arrival",
+  BestSeller = "Best Seller",
+  Featured = "Featured",
+  SpecialOffer = "Special Offer"
+}

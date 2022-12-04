@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { BarLoader } from "react-spinners";
 import { createUserData, getWishlistAndCart } from "../../helper/firebase.data";
 import { useAppSelector } from "../../redux/hook";
-import { TCart, TUserData } from "../../types/public.types";
+import { TUserData } from "../../types/public.types";
 
 const SignUp: FC = (): ReactElement => {
   const {

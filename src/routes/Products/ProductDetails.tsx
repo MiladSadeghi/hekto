@@ -16,7 +16,7 @@ import {
 } from "../../helper/firebase.data";
 import Loader from "../../helper/Loader";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { Product } from "../../types/IProducts.interface";
+import { Product, TProductDetailsStars } from "../../types/IProducts.interface";
 
 const ProductDetails: FC = (): ReactElement | null => {
   const { id } = useParams();
@@ -28,12 +28,12 @@ const ProductDetails: FC = (): ReactElement | null => {
 
   const { products: Products } = useAppSelector((state) => state.product);
   const [productDetails, setProductDetails] = useState<Product>();
-  const [stars, setStars] = useState({
+  const [stars, setStars] = useState<TProductDetailsStars>({
     star: 0,
     count: 0,
   });
-  const [toggleState, setToggleState] = useState(1);
-  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const [toggleState, setToggleState] = useState<number>(1);
+  const [mainImageIndex, setMainImageIndex] = useState<number>(0);
 
   const toggleTab = (index: number) => {
     setToggleState(index);
@@ -89,7 +89,7 @@ const ProductDetails: FC = (): ReactElement | null => {
               <div className="w-1/4 grid grid-cols-1 gap-2 h-full content-between">
                 {productDetails.imagesByColor
                   ? productDetails.imagesByColor[
-                      productDetails.colors[0].name
+                      productDetails.colors!![0].name
                     ].map((image: string, index: number) => (
                       <img
                         className={`rounded-[4px] duration-100 border-2 border-transparent opacity-70 ease-in-out ${
@@ -123,12 +123,12 @@ const ProductDetails: FC = (): ReactElement | null => {
                     className="rounded-sm"
                     key={
                       productDetails.imagesByColor[
-                        productDetails.colors[0].name
+                        productDetails.colors!![0].name
                       ][0]
                     }
                     src={
                       productDetails.imagesByColor[
-                        productDetails.colors[0].name
+                        productDetails.colors!![0].name
                       ][mainImageIndex]
                     }
                     alt={productDetails.title}

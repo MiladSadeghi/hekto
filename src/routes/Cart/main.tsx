@@ -12,7 +12,7 @@ import { ECartSituation } from "../../enums/public.enum";
 const CartMain = (): ReactElement => {
   const { uid, cart, cartSituation } = useAppSelector((state) => state.user);
   const { products } = useAppSelector((state) => state.product);
-  const [cartProducts, setCartProducts] = useState<any>();
+  const [cartProducts, setCartProducts] = useState<Product[]>();
 
   useEffect(() => {
     if (uid && !!products.length) {
@@ -28,7 +28,7 @@ const CartMain = (): ReactElement => {
 
   const totalCartPrice = (): string => {
     const pricesArray: any = [];
-    cartProducts.forEach((item1: any) =>
+    cartProducts!.forEach((item1: any) =>
       cart.forEach((item2: any) => {
         if (item1.id === item2.productID) {
           pricesArray.push(

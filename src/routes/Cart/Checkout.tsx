@@ -162,7 +162,7 @@ const Checkout: React.FC<ICartProps> = ({
                         className="w-full rounded-sm"
                         src={
                           product.imagesByColor
-                            ? product.imagesByColor[product.colors[0].name][0]
+                            ? product.imagesByColor[product.colors!![0].name][0]
                             : product.images[0]
                         }
                         alt={product.title}

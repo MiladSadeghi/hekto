@@ -1,20 +1,17 @@
 type ProductColors = {
-  [key: string]: {
-    name: string;
-    color: string;
-  }
+  name: string;
+  color: string;
 }
 
 type ProductImagesByColor = {
-  [key: string]: string[]
+  [name: string]: string[]
 }
-
 
 export type Product = {
   category: string;
-  colors?: any,
+  colors?: ProductColors[],
   id: string;
-  imagesByColor?: any,
+  imagesByColor?: ProductImagesByColor,
   price: string;
   specifications: string[],
   title: string;
@@ -29,4 +26,9 @@ export interface ISliceInitialState {
   products?: Product[],
   error: any,
   listedProduct?: Product[],
+}
+
+export type TProductDetailsStars = {
+  star: number,
+  count: number
 }
