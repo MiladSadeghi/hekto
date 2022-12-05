@@ -11,7 +11,7 @@ import {
 } from "../../redux/slices/user";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { TCart, ICartProps } from "../../types/public.types";
+import { TCart, ICartProps } from "../../types/user.types";
 import { ECartSituation } from "../../enums/public.enum";
 
 const Cart: FC<ICartProps> = ({
@@ -21,6 +21,7 @@ const Cart: FC<ICartProps> = ({
 }): ReactElement => {
   const { uid, guest } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  console.log(cart);
 
   const clearCart = async (e: any, uid: string) => {
     e.currentTarget.disabled = true;
@@ -96,14 +97,25 @@ const Cart: FC<ICartProps> = ({
                           <RiCloseCircleFill size={16} />
                         </div>
                       </div>
-                      <Link
-                        className="my-auto ml-2"
-                        to={`/product-details/${product.id}`}
-                      >
-                        <h2 className="font-JosefinSans text-sm font-semibold">
-                          {product.title}
-                        </h2>
-                      </Link>
+                      <div className="flex flex-col my-auto ml-2">
+                        <Link to={`/product-details/${product.id}`}>
+                          <h2 className="font-JosefinSans text-sm font-semibold">
+                            {product.title}
+                          </h2>
+                        </Link>
+                        {(() => {
+                          const color = cart.find(
+                            (item) => item.productID === product.id
+                          )?.color;
+                          if (color) {
+                            return (
+                              <p className="font-JosefinSans text-xs font-semibold mt-2 text-[#A1A8C1]">
+                                Color: <span className="text-sm">{color}</span>
+                              </p>
+                            );
+                          }
+                        })()}
+                      </div>
                     </td>
                     <td className="py-4 px-6">
                       {product.discount ? (

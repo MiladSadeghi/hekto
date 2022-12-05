@@ -57,7 +57,7 @@
     @apply focus-within:outline-none border-[1px] border-[#A4B6C8] py-2 px-3;
   }
   .selected-main-image {
-    @apply !border-zinc-400 !border-2 !opacity-100;
+    @apply !opacity-100;
   }
   .wishlist-product-th {
     @apply py-3 px-6 font-JosefinSans text-base text-[#999999] font-medium;

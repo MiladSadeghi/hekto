@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { ADD_TO_CART, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, SET_WISHLIST_CART } from "../redux/slices/user";
-import { TCart, TUserData } from "../types/public.types";
+import { TCart, TUserData } from "../types/user.types";
 import { fireStoreDB } from "./firebase.config";
 
 export const getUserData = async (uid: string) => {
@@ -63,7 +63,7 @@ export const removeFromWishlist = async (uid: string, productID: string | number
   }
 }
 
-export const addToCart = async (uid: string, productID: string | number, dispatch: Function) => {
+export const addToCart = async (uid: string, productID: string | number, dispatch: Function, colorName?: string) => {
   const id = toast.loading("Please wait...");
   try {
     const userRef = doc(fireStoreDB, `users/${uid}`);
@@ -72,7 +72,8 @@ export const addToCart = async (uid: string, productID: string | number, dispatc
     if (!isAvailable) {
       const cartItem = {
         productID,
-        quantity: 1
+        quantity: 1,
+        ...(colorName && { color: colorName })
       };
       await updateDoc(userRef, {
         cart: [...userCart, cartItem]

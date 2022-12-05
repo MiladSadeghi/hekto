@@ -1,6 +1,6 @@
-type ProductColors = {
+export type ProductColors = {
   name: string;
-  color: string;
+  code: string;
 }
 
 type ProductImagesByColor = {

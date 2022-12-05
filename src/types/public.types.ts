@@ -16,19 +16,3 @@ export type TShopOffer = {
 }
 
 export type TProductListSort = "regular" | "highest" | "lowest";
-
-export type TCart = {
-  productID: string;
-  quantity: number
-};
-
-export type TUserData = {
-  wishlist: string[],
-  cart: TCart[]
-}
-
-export interface ICartProps {
-  cartProducts: Product[],
-  cart: TCart[],
-  totalCartPrice: string
-}

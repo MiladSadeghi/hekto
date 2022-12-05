@@ -17,6 +17,7 @@ import {
 import Loader from "../../helper/Loader";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { Product, TProductDetailsStars } from "../../types/IProducts.interface";
+import { ProductColors } from "../../types/IProducts.interface";
 
 const ProductDetails: FC = (): ReactElement | null => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ const ProductDetails: FC = (): ReactElement | null => {
   });
   const [toggleState, setToggleState] = useState<number>(1);
   const [mainImageIndex, setMainImageIndex] = useState<number>(0);
+  const [color, setColor] = useState<ProductColors>();
 
   const toggleTab = (index: number) => {
     setToggleState(index);
@@ -61,12 +63,22 @@ const ProductDetails: FC = (): ReactElement | null => {
   };
 
   useEffect(() => {
+    console.log(color);
+  }, [color]);
+
+  useEffect(() => {
     const product: Product = Products.find(
       (product: Product) => product.id === id
     );
-    document.title = `Hekto - ${product.title}`;
+    document.title = `Hekto - ${product?.title}`;
     if (product !== undefined && Products.length !== 0) {
       setProductDetails(product);
+      if (product.colors) {
+        setColor({
+          code: product.colors[0].code,
+          name: product.colors[0].name,
+        });
+      }
       if (product.comments) setStars(votes(product.comments));
     } else if (product === undefined && Products.length !== 0) {
       navigate("/404", { replace: false });
@@ -89,19 +101,22 @@ const ProductDetails: FC = (): ReactElement | null => {
             <div className="w-full flex items-center gap-4">
               <div className="w-1/4 grid grid-cols-1 gap-2 h-full content-between">
                 {productDetails.imagesByColor
-                  ? productDetails.imagesByColor[
-                      productDetails.colors!![0].name
-                    ].map((image: string, index: number) => (
-                      <img
-                        className={`rounded-[4px] duration-100 border-2 border-transparent opacity-70 ease-in-out ${
-                          mainImageIndex === index ? "selected-main-image" : ""
-                        }`}
-                        key={image}
-                        src={image}
-                        alt={productDetails.title}
-                        onClick={() => setMainImageIndex(index)}
-                      />
-                    ))
+                  ? productDetails.imagesByColor[color!.name].map(
+                      (image: string, index: number) => (
+                        <img
+                          className={`rounded-[4px] duration-100 border-2 border-transparent opacity-70 ease-in-out ${
+                            mainImageIndex === index
+                              ? "selected-main-image"
+                              : ""
+                          }`}
+                          key={image}
+                          src={image}
+                          alt={productDetails.title}
+                          onClick={() => setMainImageIndex(index)}
+                          style={{ borderColor: `${color!.code}` }}
+                        />
+                      )
+                    )
                   : productDetails.images.map(
                       (image: string, index: number) => (
                         <img
@@ -122,15 +137,9 @@ const ProductDetails: FC = (): ReactElement | null => {
                 {productDetails.imagesByColor ? (
                   <img
                     className="rounded-sm"
-                    key={
-                      productDetails.imagesByColor[
-                        productDetails.colors!![0].name
-                      ][0]
-                    }
+                    key={productDetails.imagesByColor[color!.name][0]}
                     src={
-                      productDetails.imagesByColor[
-                        productDetails.colors!![0].name
-                      ][mainImageIndex]
+                      productDetails.imagesByColor[color!.name][mainImageIndex]
                     }
                     alt={productDetails.title}
                   />
@@ -182,8 +191,15 @@ const ProductDetails: FC = (): ReactElement | null => {
                   {productDetails.colors.map((item: any) => (
                     <div className="relative mr-2" key={item.code}>
                       <div
-                        className={`w-6 h-2 rounded-2xl group cursor-pointer relative`}
+                        className={`w-6 h-2 rounded-2xl group cursor-pointer relative ${
+                          color!.name === item.name
+                            ? "outline-2 outline outline-slate-400"
+                            : ""
+                        }`}
                         style={{ background: item.code }}
+                        onClick={() =>
+                          setColor({ name: item.name, code: item.code })
+                        }
                       >
                         <div
                           className="opacity-0 w-max rounded-lg py-2 absolute z-10 group-hover:opacity-100 -top-10 left-1/2 -translate-x-1/2 px-3 pointer-events-none"
@@ -212,7 +228,9 @@ const ProductDetails: FC = (): ReactElement | null => {
               )}
               <div className="flex items-center mt-10">
                 <h5
-                  onClick={() => addToCart(uid, productDetails.id, dispatch)}
+                  onClick={() =>
+                    addToCart(uid, productDetails.id, dispatch, color!.name)
+                  }
                   className="font-JosefinSans text-lg font-bold text-navy-blue py-1 px-4 cursor-pointer"
                 >
                   Add To Cart

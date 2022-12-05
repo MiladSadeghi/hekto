@@ -13,7 +13,7 @@ import {
 import "../../index.css";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { USER_LOGGED_IN } from "../../redux/slices/user";
-import { TUserData } from "../../types/public.types";
+import { TUserData } from "../../types/user.types";
 import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
 

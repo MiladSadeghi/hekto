@@ -1,12 +1,10 @@
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { ECartSituation } from "../../enums/public.enum";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { CHANGE_CART_SITUATION, clearUserCart } from "../../redux/slices/user";
+import { clearUserCart } from "../../redux/slices/user";
 import { Product } from "../../types/IProducts.interface";
-import { ICartProps, TCart } from "../../types/public.types";
+import { ICartProps } from "../../types/user.types";
 import { OrderCompleteSchema } from "../../Validation/order";
 
 const Checkout: React.FC<ICartProps> = ({
@@ -20,20 +18,19 @@ const Checkout: React.FC<ICartProps> = ({
   };
   const dispatch = useAppDispatch();
 
-  const { values, handleChange, handleSubmit, errors, isSubmitting, isValid } =
-    useFormik({
-      initialValues: {
-        firstName: "",
-        lastName: "",
-        address: "",
-        apt: "",
-        city: "",
-        state: "",
-        postalCode: 0,
-      },
-      validationSchema: OrderCompleteSchema,
-      onSubmit,
-    });
+  const { values, handleChange, handleSubmit, errors, isValid } = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      address: "",
+      apt: "",
+      city: "",
+      state: "",
+      postalCode: 0,
+    },
+    validationSchema: OrderCompleteSchema,
+    onSubmit,
+  });
 
   const { uid } = useAppSelector((state) => state.user);
 
@@ -176,13 +173,27 @@ const Checkout: React.FC<ICartProps> = ({
                         <p className="font-JosefinSans text-xs text-[#A1A8C1]">
                           Qt:
                           <span className="text-sm ml-1">
-                            {(() => {
-                              const value: TCart | undefined = cart.find(
+                            {
+                              cart.find(
                                 (item: any) => item.productID === product.id
-                              );
-                              return value?.quantity;
-                            })()}
+                              )!.quantity
+                            }
                           </span>
+                        </p>
+                        <p>
+                          {(() => {
+                            const color = cart.find(
+                              (item) => item.productID === product.id
+                            )?.color;
+                            if (color) {
+                              return (
+                                <p className="font-JosefinSans text-xs text-[#A1A8C1]">
+                                  Color:
+                                  <span className="text-sm">{color}</span>
+                                </p>
+                              );
+                            }
+                          })()}
                         </p>
                       </div>
                       <p className="font-JosefinSans text-navy-blue text-sm">

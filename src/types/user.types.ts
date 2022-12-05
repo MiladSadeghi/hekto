@@ -3,7 +3,8 @@ import { Product } from "./IProducts.interface";
 
 export type TCart = {
   productID: string;
-  quantity: number
+  quantity: number;
+  color?: string;
 };
 
 export type TUserData = {

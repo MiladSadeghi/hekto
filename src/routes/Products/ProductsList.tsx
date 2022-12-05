@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { SlMagnifierAdd } from "react-icons/sl";
 import { Link, useSearchParams } from "react-router-dom";
+import {
+  addToCart,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../helper/firebase.data";
 import Loader from "../../helper/Loader";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
@@ -25,6 +31,7 @@ const ProductsList = () => {
   const { loading: listedLoading, listedProduct } = useAppSelector(
     (state) => state.list
   );
+  const { uid, wishlist } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const isMount1 = useRef(false);
   const isMount2 = useRef(false);
@@ -188,10 +195,27 @@ const ProductsList = () => {
                     </div>
                     <div className="flex mt-2">
                       <HiOutlineShoppingCart
-                        className="mr-7 text-[#535399]"
+                        onClick={() => addToCart(uid, product.id, dispatch)}
+                        className="mr-7 text-[#535399] cursor-pointer"
                         fontSize={20}
                       />
-                      <FiHeart className="mr-7 text-[#535399]" fontSize={20} />
+                      {wishlist.includes(product.id) ? (
+                        <FaHeart
+                          onClick={() =>
+                            removeFromWishlist(uid, product.id, dispatch)
+                          }
+                          className="mr-7 text-[#535399] cursor-pointer"
+                          fontSize={20}
+                        />
+                      ) : (
+                        <FiHeart
+                          onClick={() =>
+                            addToWishlist(uid, product.id, dispatch)
+                          }
+                          className="mr-7 text-[#535399] cursor-pointer"
+                          fontSize={20}
+                        />
+                      )}
                       <Link to={`/product-details/${product.id}`}>
                         <SlMagnifierAdd
                           className="text-[#535399]"
