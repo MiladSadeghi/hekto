@@ -18,6 +18,7 @@ import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
 
 const SignIn: FC = (): ReactElement => {
+  document.title = "Hekto - Sign In";
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

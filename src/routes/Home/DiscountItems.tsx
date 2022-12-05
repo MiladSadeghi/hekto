@@ -3,6 +3,7 @@ import { discountSection } from "../../enums/public.enum";
 import { useAppSelector } from "../../redux/hook";
 import { BiCheck } from "react-icons/bi";
 import { Product } from "../../types/IProducts.interface";
+import { Link } from "react-router-dom";
 
 const DiscountItems = () => {
   const [section, setSection] = useState<discountSection>(
@@ -61,9 +62,12 @@ const DiscountItems = () => {
               </div>
             ))}
           </div>
-          <button className="px-14 py-3 bg-pink-cc w-fit font-JosefinSans text-[17px] text-white rounded-sm mt-7 cursor-pointer">
+          <Link
+            to={`product-details/${discountItem.id}`}
+            className="px-14 py-3 bg-pink-cc w-fit font-JosefinSans text-[17px] text-white rounded-sm mt-7 cursor-pointer"
+          >
             Shop Now
-          </button>
+          </Link>
         </div>
         <div className="w-full relative">
           <div className="absolute w-[95%] h-[95%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#fcecf1] z-10 rounded-full" />

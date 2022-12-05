@@ -13,6 +13,7 @@ import { useAppSelector } from "../../redux/hook";
 import { TUserData } from "../../types/public.types";
 
 const SignUp: FC = (): ReactElement => {
+  document.title = "Hekto - Sign Up";
   const {
     values,
     handleChange,

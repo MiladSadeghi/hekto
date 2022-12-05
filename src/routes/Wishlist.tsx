@@ -13,6 +13,7 @@ import { HiMinus } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const Wishlist = () => {
+  document.title = "Hekto - Wishlist";
   const { uid } = useAppSelector((state) => state.user);
   const { products } = useAppSelector((state) => state.product);
   const [wishlistProducts, setWishlistProducts] = useState<any>();

@@ -15,6 +15,7 @@ import { Product } from "../../types/IProducts.interface";
 import { TProductListSort } from "../../types/public.types";
 
 const ProductsList = () => {
+  document.title = "Hekto - Products";
   const [searchParams, setSearchParams] = useSearchParams();
   const { loading: productsLoading, products } = useAppSelector(
     (state) => state.product
@@ -86,7 +87,7 @@ const ProductsList = () => {
             </h5>
             <div className="flex items-center">
               <p className="text-[#3F509E] font-Lato text-base mr-2 whitespace-pre">
-                Sort By:{" "}
+                Sort By:
               </p>
               <select
                 value={sort}

@@ -12,7 +12,7 @@ const Navbar: FC = (): ReactElement => {
   const { isLoggedIn, guest, userName } = useAppSelector((state) => state.user);
 
   return (
-    <>
+    <nav>
       <div className="w-100 bg-[#7E33E0] py-2 font-JosefinSans">
         <div className="container mx-auto">
           <div className="flex justify-between items-center text-[#F1F1F1] text-base">
@@ -51,13 +51,15 @@ const Navbar: FC = (): ReactElement => {
                 )}
               </div>
               <div className="flex items-center ml-3">
-                <Link to={"/wishlist"} className="flex">
+                <Link to={"/wishlist"} className="flex items-center">
                   <p>Wishlist</p>
                   <BsFillSuitHeartFill className="ml-2 text-base" />
                 </Link>
               </div>
               <div className="flex items-center ml-3">
-                <MdOutlineShoppingCart className="ml-2 text-lg" />
+                <Link to={"/cart"} className="flex items-center">
+                  <MdOutlineShoppingCart className="ml-2 text-lg" />
+                </Link>
               </div>
             </div>
           </div>
@@ -80,7 +82,7 @@ const Navbar: FC = (): ReactElement => {
               </li>
               <li className="mr-9">
                 <Link
-                  to="/shop"
+                  to="/products"
                   className="hover:text-pink-cc duration-150 text-[#0D0E43]"
                 >
                   Shop
@@ -115,7 +117,7 @@ const Navbar: FC = (): ReactElement => {
           </div>
         </div>
       </div>
-    </>
+    </nav>
   );
 };
 

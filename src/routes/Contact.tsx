@@ -4,6 +4,7 @@ import { HiMail } from 'react-icons/hi'
 import ContactUsIMG from "../images/contact-us.png";
 
 const Contact: FC = ():ReactElement => {
+  document.title = "Hekto - Contact Us";
   return (
     <div>
       <div className='bg-[#F6F5FF] py-16'>

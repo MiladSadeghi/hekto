@@ -4,7 +4,7 @@ import { GrFacebookOption, GrTwitter } from "react-icons/gr";
 
 const Footer: FC = (): ReactElement => {
   return (
-    <div>
+    <footer>
       <div className="bg-[#EEEFFB] py-20 flex items-center">
         <div className="container mx-auto">
           <div className="flex">
@@ -87,7 +87,7 @@ const Footer: FC = (): ReactElement => {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from "react";
+import { Link } from "react-router-dom";
 import { FCTypes } from "../types/public.types";
 
 const CCTPCards: FC<FCTypes> = (props): ReactElement => {
@@ -18,9 +19,14 @@ const CCTPCards: FC<FCTypes> = (props): ReactElement => {
         />
       </div>
       <div className="flex flex-col justify-center items-center mt-2">
-        <h3 className="line-clamp-1 font-Lato text-base text-center font-bold text-navy-blue w-11/12 mb-2">
-          {data.title}
-        </h3>
+        <Link
+          to={`product-details/${data.id}`}
+          className="flex items-center justify-center"
+        >
+          <h5 className="line-clamp-1 font-Lato text-base text-center font-bold text-navy-blue w-11/12 mb-2">
+            {data.title}
+          </h5>
+        </Link>
         <div>
           <p className="font-JosefinSans text-sm text-navy-blue">
             ${data.price}

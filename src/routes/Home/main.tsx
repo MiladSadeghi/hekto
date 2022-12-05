@@ -11,6 +11,7 @@ import UniqueFurniture from "./UniqueFurniture";
 import UpdateBanner from "./UpdateBanner";
 
 const Home = () => {
+  document.title = "Hekto";
   return (
     <>
       <Header />

@@ -1,10 +1,14 @@
 import React from "react";
-import { useAppSelector } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { Product } from "../../types/IProducts.interface";
 import BGImg from "../../images/ellipse-unique-furniture.png";
+import { Link } from "react-router-dom";
+import { addToCart } from "../../helper/firebase.data";
 
 const UniqueFurniture = () => {
   const { products } = useAppSelector((state) => state.product);
+  const dispatch = useAppDispatch();
+  const { uid } = useAppSelector((state) => state.user);
   const uniqueFurniture: any = products.find(
     (product: Product) => product.id === "09346776"
   );
@@ -44,13 +48,18 @@ const UniqueFurniture = () => {
               </li>
             </ul>
             <div className="mt-4 flex items-center">
-              <button className="font-JosefinSans text-base rounded-sm bg-pink-cc px-6 py-2 text-white">
+              <button
+                onClick={() => addToCart(uid, uniqueFurniture.id, dispatch)}
+                className="font-JosefinSans text-base rounded-sm bg-pink-cc px-6 py-2 text-white"
+              >
                 Add To Cart
               </button>
               <div className="flex flex-col ml-4">
-                <p className="text-[14px] font-semibold font-JosefinSans text-navy-blue leading-4">
-                  {uniqueFurniture.title}
-                </p>
+                <Link to={`/product-details/${uniqueFurniture.id}`}>
+                  <p className="text-[14px] font-semibold font-JosefinSans text-navy-blue leading-4">
+                    {uniqueFurniture.title}
+                  </p>
+                </Link>
                 <p className="font-Lato text-[14px] text-navy-blue leading-4">
                   ${uniqueFurniture.price}
                 </p>

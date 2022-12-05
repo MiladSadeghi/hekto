@@ -64,6 +64,7 @@ const ProductDetails: FC = (): ReactElement | null => {
     const product: Product = Products.find(
       (product: Product) => product.id === id
     );
+    document.title = `Hekto - ${product.title}`;
     if (product !== undefined && Products.length !== 0) {
       setProductDetails(product);
       if (product.comments) setStars(votes(product.comments));
