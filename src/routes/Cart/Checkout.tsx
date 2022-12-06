@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import React from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { useAppDispatch } from "../../redux/hook";
 import { clearUserCart } from "../../redux/slices/user";
 import { Product } from "../../types/IProducts.interface";
 import { ICartProps } from "../../types/user.types";
@@ -33,12 +33,9 @@ const Checkout: React.FC<ICartProps> = ({
     onSubmit,
   });
 
-  const { uid } = useAppSelector((state) => state.user);
-
   function onSubmit(actions: any) {
     dispatch(
       clearUserCart({
-        uid,
         successMessage: "Order Complete",
         orderComplete: true,
       })

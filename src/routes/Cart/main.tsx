@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { getCart } from "../../helper/firebase.data";
 import Loader from "../../helper/Loader";
 import { useAppSelector } from "../../redux/hook";
 import { Product } from "../../types/IProducts.interface";
@@ -8,6 +7,7 @@ import Cart from "./Cart";
 import Checkout from "./Checkout";
 import OrderComplete from "./OrderComplete";
 import { ECartSituation } from "../../enums/public.enum";
+import { getUserData } from "../../helper/firebase.data";
 
 const CartMain = (): ReactElement => {
   const { uid, cart, cartSituation } = useAppSelector((state) => state.user);
@@ -16,15 +16,15 @@ const CartMain = (): ReactElement => {
 
   useEffect(() => {
     if (uid && !!products.length) {
-      getCart(uid).then(async (item: any) => {
-        const cartProductsID = item.map((item1: any) => item1.productID);
+      getUserData(uid).then(async (item: any) => {
+        const cartProductsID = item.cart.map((item1: any) => item1.productID);
         const list = await products.filter((item2: Product) => {
           return cartProductsID.includes(item2.id);
         });
         setCartProducts(list);
       });
     }
-  }, [products, uid]);
+  }, [products, uid, cart]);
 
   const totalCartPrice = (): string => {
     const pricesArray: any = [];

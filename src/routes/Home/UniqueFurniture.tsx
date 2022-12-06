@@ -3,12 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { Product } from "../../types/IProducts.interface";
 import BGImg from "../../images/ellipse-unique-furniture.png";
 import { Link } from "react-router-dom";
-import { addToCart } from "../../helper/firebase.data";
+import { addToCart } from "../../redux/slices/user";
 
 const UniqueFurniture = () => {
   const { products } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
-  const { uid } = useAppSelector((state) => state.user);
   const uniqueFurniture: any = products.find(
     (product: Product) => product.id === "09346776"
   );
@@ -49,7 +48,9 @@ const UniqueFurniture = () => {
             </ul>
             <div className="mt-4 flex items-center">
               <button
-                onClick={() => addToCart(uid, uniqueFurniture.id, dispatch)}
+                onClick={() =>
+                  dispatch(addToCart({ productID: uniqueFurniture.id }))
+                }
                 className="font-JosefinSans text-base rounded-sm bg-pink-cc px-6 py-2 text-white"
               >
                 Add To Cart

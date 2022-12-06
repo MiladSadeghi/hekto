@@ -7,12 +7,12 @@ import { FiHeart } from "react-icons/fi";
 import { FCTypes } from "../types/public.types";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import {
   addToCart,
   addToWishlist,
   removeFromWishlist,
-} from "../helper/firebase.data";
-import { Link } from "react-router-dom";
+} from "../redux/slices/user";
 
 const FPCards: FC<FCTypes> = (props): ReactElement => {
   const { data } = props;
@@ -33,17 +33,19 @@ const FPCards: FC<FCTypes> = (props): ReactElement => {
         />
         <div className="FPCard-hover-icons">
           <HiOutlineShoppingCart
-            onClick={() => addToCart(uid, data.id, dispatch)}
+            onClick={() => dispatch(addToCart({ productID: data.id }))}
             className="FPCard-hover-icon cursor-pointer"
           />
           {wishlist.includes(data.id) ? (
             <FaHeart
-              onClick={() => removeFromWishlist(uid, data.id, dispatch)}
+              onClick={() =>
+                dispatch(removeFromWishlist({ productID: data.id }))
+              }
               className="FPCard-hover-icon cursor-pointer"
             />
           ) : (
             <FiHeart
-              onClick={() => addToWishlist(uid, data.id, dispatch)}
+              onClick={() => dispatch(addToWishlist({ productID: data.id }))}
               className="FPCard-hover-icon cursor-pointer"
             />
           )}

@@ -9,13 +9,13 @@ import {
 } from "react-icons/ai";
 import { GrFacebookOption, GrTwitter } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../helper/Loader";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   addToCart,
   addToWishlist,
   removeFromWishlist,
-} from "../../helper/firebase.data";
-import Loader from "../../helper/Loader";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
+} from "../../redux/slices/user";
 import { Product, TProductDetailsStars } from "../../types/IProducts.interface";
 import { ProductColors } from "../../types/IProducts.interface";
 
@@ -225,7 +225,7 @@ const ProductDetails: FC = (): ReactElement | null => {
               <div className="flex items-center mt-10">
                 <h5
                   onClick={() =>
-                    addToCart(uid, productDetails.id, dispatch, color!.name)
+                    dispatch(addToCart({ productID: productDetails.id }))
                   }
                   className="font-JosefinSans text-lg font-bold text-navy-blue py-1 px-4 cursor-pointer"
                 >
@@ -234,7 +234,9 @@ const ProductDetails: FC = (): ReactElement | null => {
                 {wishlist.includes(productDetails.id) ? (
                   <AiFillHeart
                     onClick={() =>
-                      removeFromWishlist(uid, productDetails.id, dispatch)
+                      dispatch(
+                        removeFromWishlist({ productID: productDetails.id })
+                      )
                     }
                     className="ml-4 font-bold text-red-600 cursor-pointer"
                     size={30}
@@ -242,7 +244,7 @@ const ProductDetails: FC = (): ReactElement | null => {
                 ) : (
                   <AiOutlineHeart
                     onClick={() =>
-                      addToWishlist(uid, productDetails.id, dispatch)
+                      dispatch(addToWishlist({ productID: productDetails.id }))
                     }
                     className="ml-4 font-bold text-red-600 cursor-pointer"
                     size={30}

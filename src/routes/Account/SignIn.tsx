@@ -1,28 +1,17 @@
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { useFormik } from "formik";
 import { FC, ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BarLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { auth } from "../../helper/firebase.config";
-import {
-  getUserData,
-  getWishlistAndCart,
-  guestToUser,
-} from "../../helper/firebase.data";
 import "../../index.css";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { USER_LOGGED_IN } from "../../redux/slices/user";
-import { TUserData } from "../../types/user.types";
+import { useAppDispatch } from "../../redux/hook";
+import { signIn } from "../../redux/slices/user";
 import { AccountErrors, SignInSchema } from "../../Validation/account";
 import Logos from "../Home/Logos";
 
 const SignIn: FC = (): ReactElement => {
   document.title = "Hekto - Sign In";
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const {
@@ -42,23 +31,11 @@ const SignIn: FC = (): ReactElement => {
     onSubmit,
   });
 
-  const { uid } = useAppSelector((state) => state.user);
-
   async function onSubmit(
     { email, password }: { email: string; password: string },
     actions: any
   ) {
-    try {
-      const guestData: TUserData = await getWishlistAndCart(uid);
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      await guestToUser(user.user.uid, guestData);
-      const userData = await getUserData(user.user.uid);
-      toast.success(`Welcome back ${userData?.userName}`);
-      dispatch(USER_LOGGED_IN(userData));
-      navigate("/", { replace: true });
-    } catch (error: any) {
-      toast.error(AccountErrors(error.code));
-    }
+    await dispatch(signIn({ email, password }));
     actions.setSubmitting(false);
   }
 
@@ -147,11 +124,7 @@ const SignIn: FC = (): ReactElement => {
               className="text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75 flex items-center justify-center h-[48px] rounded-[3px]"
               disabled={isSubmitting}
             >
-              {isSubmitting ? (
-                <BarLoader color="#fff" height={3} width={150} />
-              ) : (
-                "Sign In"
-              )}
+              Sign In
             </button>
             <div className="text-center mt-5">
               <Link to={"/signup"} className="text-base text-[#9096B2] ">

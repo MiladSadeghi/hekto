@@ -2,15 +2,10 @@ import React, { FC, ReactElement } from "react";
 import Logos from "../Home/Logos";
 import "../../index.css";
 import { useFormik } from "formik";
-import { AccountErrors, SignUpSchema } from "../../Validation/account";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../helper/firebase.config";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { BarLoader } from "react-spinners";
-import { createUserData, getWishlistAndCart } from "../../helper/firebase.data";
-import { useAppSelector } from "../../redux/hook";
-import { TUserData } from "../../types/user.types";
+import { SignUpSchema } from "../../Validation/account";
+import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hook";
+import { signUp } from "../../redux/slices/user";
 
 const SignUp: FC = (): ReactElement => {
   document.title = "Hekto - Sign Up";
@@ -34,8 +29,7 @@ const SignUp: FC = (): ReactElement => {
     onSubmit,
   });
 
-  const navigate = useNavigate();
-  const { uid } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   async function onSubmit(
     {
@@ -45,25 +39,7 @@ const SignUp: FC = (): ReactElement => {
     }: { email: string; password: string; userName: string },
     actions: any
   ) {
-    try {
-      const guestData: TUserData = await getWishlistAndCart(uid);
-      const registredUser = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      createUserData(
-        registredUser.user.uid,
-        "user",
-        guestData.wishlist,
-        guestData.cart,
-        userName
-      );
-      toast.success("Your register complete.");
-      navigate("/", { replace: true });
-    } catch (error: any) {
-      toast.error(AccountErrors(error.code));
-    }
+    await dispatch(signUp({ email, password, userName }));
     actions.setSubmitting(false);
   }
 
@@ -168,11 +144,7 @@ const SignUp: FC = (): ReactElement => {
                 className="text-center bg-pink-cc w-full text-white font-Lato disabled:opacity-75 flex items-center justify-center h-[48px] rounded-[3px]"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  <BarLoader color="#fff" height={3} width={150} />
-                ) : (
-                  "Sign Up"
-                )}
+                Sign Up
               </button>
               <div className="mt-5 text-center">
                 <Link to={"/signin"} className="text-[#9096B2] text-base">

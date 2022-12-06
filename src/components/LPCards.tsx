@@ -6,12 +6,12 @@ import { FiHeart } from "react-icons/fi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { SlMagnifierAdd } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import {
   addToCart,
   addToWishlist,
   removeFromWishlist,
-} from "../helper/firebase.data";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+} from "../redux/slices/user";
 import { FCTypes } from "../types/public.types";
 
 const LPCards: FC<FCTypes> = (props) => {
@@ -33,17 +33,19 @@ const LPCards: FC<FCTypes> = (props) => {
         />
         <div className="LPCard-hover-icons">
           <HiOutlineShoppingCart
-            onClick={() => addToCart(uid, data.id, dispatch)}
+            onClick={() => dispatch(addToCart({ productID: data.id }))}
             className="LPCard-hover-icon cursor-pointer"
           />
           {wishlist.includes(data.id) ? (
             <FaHeart
-              onClick={() => removeFromWishlist(uid, data.id, dispatch)}
+              onClick={() =>
+                dispatch(removeFromWishlist({ productID: data.id }))
+              }
               className="LPCard-hover-icon cursor-pointer"
             />
           ) : (
             <FiHeart
-              onClick={() => addToWishlist(uid, data.id, dispatch)}
+              onClick={() => dispatch(addToWishlist({ productID: data.id }))}
               className="LPCard-hover-icon cursor-pointer"
             />
           )}

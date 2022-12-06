@@ -3,14 +3,11 @@ import Loader from "../helper/Loader";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import EmptyWishlist from "../images/wishlist.png";
 import { Product } from "../types/IProducts.interface";
-import {
-  addToCart,
-  getWishlist,
-  removeFromWishlist,
-} from "../helper/firebase.data";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import { HiMinus } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { getUserData } from "../helper/firebase.data";
+import { addToCart, removeFromWishlist } from "../redux/slices/user";
 
 const Wishlist = () => {
   document.title = "Hekto - Wishlist";
@@ -21,10 +18,10 @@ const Wishlist = () => {
 
   useEffect(() => {
     if (uid && !!products.length) {
-      getWishlist(uid).then(async (item: any) => {
-        const list = await products.filter((item1: Product) => {
-          return item.includes(item1.id);
-        });
+      getUserData(uid).then(async (item: any) => {
+        const list: string[] = await products.filter((item1: Product) =>
+          item.wishlist.includes(item1.id)
+        );
         setWishlistProducts(list);
       });
     }
@@ -32,15 +29,14 @@ const Wishlist = () => {
 
   const wishlistRemove = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    productID: string | number
+    productID: string
   ) => {
     e.currentTarget.disabled = true;
-    await removeFromWishlist(uid, productID, dispatch);
+    await dispatch(removeFromWishlist({ productID }));
     const list = await wishlistProducts.filter(
       (item: any) => item.id !== productID
     );
     setWishlistProducts(list);
-    e.currentTarget.disabled = false;
   };
 
   if (wishlistProducts === undefined) return <Loader />;
@@ -107,7 +103,9 @@ const Wishlist = () => {
                 <td className="py-4 px-6">
                   <button
                     className="w-full h-7 flex items-center justify-center bg-green-600 rounded-sm"
-                    onClick={() => addToCart(uid, product.id, dispatch)}
+                    onClick={() =>
+                      dispatch(addToCart({ productID: product.id }))
+                    }
                   >
                     <TbShoppingCartPlus size={20} className="text-white" />
                   </button>

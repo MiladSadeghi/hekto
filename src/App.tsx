@@ -22,10 +22,10 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user && !user.isAnonymous) {
-        const userData = await getUserData(user.uid);
+        const userData = await getUserData(user!.uid);
         dispatch(USER_LOGGED_IN(userData));
       } else if (user && user.isAnonymous) {
-        const userData = await getUserData(user.uid);
+        const userData = await getUserData(user!.uid);
         dispatch(GUEST_LOGGED_IN(userData));
       } else if (!user) {
         const guestUser = await signInAnonymously(auth);

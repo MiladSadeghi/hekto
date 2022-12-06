@@ -1,13 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { ISliceInitialState, Product } from "../../types/IProducts.interface";
 
-export const getRegularList = createAsyncThunk("product/regularList", async ({ products, search }: { products: any, search: any }) => {
-  const filteredProducts = products.filter((product: Product) => product.title.toLowerCase().includes(search.toLowerCase()))
-  return filteredProducts
-})
-
 const initialState: ISliceInitialState = {
-  loading: true,
+  loading: false,
   listedProduct: [],
   error: ""
 }
@@ -22,22 +17,12 @@ const productRegularList = createSlice({
     highest(state, action) {
       state.listedProduct = action.payload?.slice().sort((a: any, b: any) => b.price - a.price)
     },
-    regular(state, action) {
-      state.listedProduct = action.payload
+    regular(state, { payload }) {
+      console.log(payload.products)
+      const filteredProducts = payload.products.filter((product: Product) => product.title.toLowerCase().includes(payload.search.toLowerCase()))
+      console.log(filteredProducts)
+      state.listedProduct = filteredProducts
     }
-  },
-  extraReducers(builder) {
-    builder.addCase(getRegularList.pending, (state) => {
-      state.loading = true;
-    })
-    builder.addCase(getRegularList.fulfilled, (state, action) => {
-      state.listedProduct = action.payload;
-      state.loading = false;
-    })
-    builder.addCase(getRegularList.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
   },
 })
 

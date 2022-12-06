@@ -4,28 +4,21 @@ import { FiHeart } from "react-icons/fi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { SlMagnifierAdd } from "react-icons/sl";
 import { Link, useSearchParams } from "react-router-dom";
+import Loader from "../../helper/Loader";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { highest, lowest, regular } from "../../redux/slices/list";
 import {
   addToCart,
   addToWishlist,
   removeFromWishlist,
-} from "../../helper/firebase.data";
-import Loader from "../../helper/Loader";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {
-  getRegularList,
-  highest,
-  lowest,
-  regular,
-} from "../../redux/slices/list";
+} from "../../redux/slices/user";
 import { Product } from "../../types/IProducts.interface";
 import { TProductListSort } from "../../types/public.types";
 
 const ProductsList = () => {
   document.title = "Hekto - Products";
   const [searchParams, setSearchParams] = useSearchParams();
-  const { loading: productsLoading, products } = useAppSelector(
-    (state) => state.product
-  );
+  const { products } = useAppSelector((state) => state.product);
   const [searchText, setSearchText] = useState<string>("");
   const [sort, setSort] = useState<TProductListSort>("regular");
   const { loading: listedLoading, listedProduct } = useAppSelector(
@@ -37,18 +30,18 @@ const ProductsList = () => {
   const isMount2 = useRef(false);
 
   useEffect(() => {
-    if (!productsLoading && !!products.length) {
+    if (!!products.length) {
       if (searchParams.get("search")) {
         setSearchText(() => String(searchParams.get("search")));
       } else {
-        dispatch(getRegularList({ products, search: "" }));
+        dispatch(regular({ products, search: "" }));
       }
     }
   }, [products]);
 
   useEffect(() => {
     if (isMount1.current) {
-      dispatch(getRegularList({ products, search: searchText }));
+      dispatch(regular({ products, search: searchText }));
       searchParams.set("search", searchText);
       setSearchParams(searchParams);
       document.title = `Hekto - ${searchText}`;
@@ -65,7 +58,7 @@ const ProductsList = () => {
       } else if (sort === "highest") {
         dispatch(highest(listedProduct));
       } else if (sort === "regular") {
-        dispatch(regular(products));
+        dispatch(regular({ products, search: "" }));
       }
     } else {
       isMount2.current = true;
@@ -76,7 +69,7 @@ const ProductsList = () => {
     setSort(() => query);
   };
 
-  if (productsLoading || !!!products.length) return <Loader />;
+  if (!!!products.length) return <Loader />;
   return (
     <div>
       <div className="bg-[#F6F5FF] py-16">
@@ -195,14 +188,18 @@ const ProductsList = () => {
                     </div>
                     <div className="flex mt-2">
                       <HiOutlineShoppingCart
-                        onClick={() => addToCart(uid, product.id, dispatch)}
+                        onClick={() =>
+                          dispatch(addToCart({ productID: product.id }))
+                        }
                         className="mr-7 text-[#535399] cursor-pointer"
                         fontSize={20}
                       />
                       {wishlist.includes(product.id) ? (
                         <FaHeart
                           onClick={() =>
-                            removeFromWishlist(uid, product.id, dispatch)
+                            dispatch(
+                              removeFromWishlist({ productID: product.id })
+                            )
                           }
                           className="mr-7 text-[#535399] cursor-pointer"
                           fontSize={20}
@@ -210,7 +207,7 @@ const ProductsList = () => {
                       ) : (
                         <FiHeart
                           onClick={() =>
-                            addToWishlist(uid, product.id, dispatch)
+                            dispatch(addToWishlist({ productID: product.id }))
                           }
                           className="mr-7 text-[#535399] cursor-pointer"
                           fontSize={20}

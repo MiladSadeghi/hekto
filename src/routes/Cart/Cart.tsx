@@ -28,7 +28,6 @@ const Cart: FC<ICartProps> = ({
     if (window.confirm("Are you sure?")) {
       dispatch(
         clearUserCart({
-          uid,
           successMessage: "Card clear successfully!",
           orderComplete: false,
         })
@@ -36,9 +35,11 @@ const Cart: FC<ICartProps> = ({
     }
   };
 
-  const productTotalPrice = (id: string, price: string | undefined): string => {
-    const cartItem = cart.find((item: any) => item.productID === id);
-    return String((cartItem!.quantity * Number(price)).toFixed(2));
+  const productTotalPrice = (id: string, price: string): string => {
+    const cartItem: any = cart.find((item: any) => item.productID === id);
+    if (cartItem) {
+      return String((cartItem.quantity * Number(price)).toFixed(2));
+    } else return price;
   };
 
   return (
@@ -89,9 +90,7 @@ const Cart: FC<ICartProps> = ({
                         <div
                           className="absolute -top-[7px] -right-[7px] cursor-pointer"
                           onClick={() =>
-                            dispatch(
-                              removeCartItem({ uid, productID: product.id })
-                            )
+                            dispatch(removeCartItem({ productID: product.id }))
                           }
                         >
                           <RiCloseCircleFill size={16} />
@@ -169,7 +168,7 @@ const Cart: FC<ICartProps> = ({
                         $
                         {productTotalPrice(
                           product.id,
-                          product.price ? product.price : product.discount
+                          product.price ? product.price! : product.discount!
                         )}
                       </h2>
                     </td>
