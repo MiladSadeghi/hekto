@@ -8,6 +8,7 @@ import Contact from "./Contact";
 import Faq from "./Faq";
 import Home from "./Home/main";
 import NotFound from "./NotFound";
+import PrivateRoute from "./PrivateRoute";
 import ProductDetails from "./Products/ProductDetails";
 import ProductsList from "./Products/ProductsList";
 import Wishlist from "./Wishlist";
@@ -16,8 +17,22 @@ const PagesRoute: FC = (): ReactElement => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route
+        path="/signin"
+        element={
+          <PrivateRoute>
+            <SignIn />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <PrivateRoute>
+            <SignUp />
+          </PrivateRoute>
+        }
+      />
       <Route path="/about-us" element={<About />} />
       <Route path="/contact-us" element={<Contact />} />
       <Route path="/404" element={<NotFound />} />

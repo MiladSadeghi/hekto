@@ -21,7 +21,7 @@ const Cart: FC<ICartProps> = ({
 }): ReactElement => {
   const { uid, guest } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  console.log(cart);
+  document.title = "Hekto - Cart";
 
   const clearCart = async (e: any, uid: string) => {
     e.currentTarget.disabled = true;
@@ -87,7 +87,7 @@ const Cart: FC<ICartProps> = ({
                           alt={product.title}
                         />
                         <div
-                          className="absolute -top-[7px] -right-[7px]"
+                          className="absolute -top-[7px] -right-[7px] cursor-pointer"
                           onClick={() =>
                             dispatch(
                               removeCartItem({ uid, productID: product.id })

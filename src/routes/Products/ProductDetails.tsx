@@ -63,15 +63,11 @@ const ProductDetails: FC = (): ReactElement | null => {
   };
 
   useEffect(() => {
-    console.log(color);
-  }, [color]);
-
-  useEffect(() => {
     const product: Product = Products.find(
       (product: Product) => product.id === id
     );
-    document.title = `Hekto - ${product?.title}`;
     if (product !== undefined && Products.length !== 0) {
+      document.title = `Hekto - ${product?.title}`;
       setProductDetails(product);
       if (product.colors) {
         setColor({
@@ -81,7 +77,7 @@ const ProductDetails: FC = (): ReactElement | null => {
       }
       if (product.comments) setStars(votes(product.comments));
     } else if (product === undefined && Products.length !== 0) {
-      navigate("/404", { replace: false });
+      navigate("/404");
     }
   }, [Products]);
 

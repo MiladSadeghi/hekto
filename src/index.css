@@ -65,4 +65,10 @@
   .cart-product-th {
     @apply py-3 px-6 font-JosefinSans text-xl text-navy-blue font-bold whitespace-pre;
   }
+  .active-nav-link {
+    @apply text-pink-cc duration-150;
+  }
+  .nav-link {
+    @apply hover:text-pink-cc duration-150 text-[#0D0E43];
+  }
 }

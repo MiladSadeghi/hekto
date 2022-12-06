@@ -6,6 +6,7 @@ import checkListIMG from "../../images/checklist.png";
 import Logos from "../Home/Logos";
 
 const OrderComplete: FC = (): ReactElement => {
+  document.title = "Hekto - Order Complete";
   return (
     <div>
       <div className="bg-[#F6F5FF] py-16">

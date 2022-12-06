@@ -12,6 +12,7 @@ const Checkout: React.FC<ICartProps> = ({
   cart,
   totalCartPrice,
 }): React.ReactElement => {
+  document.title = "Hekto - Checkout";
   const productTotalPrice = (id: string, price: string | undefined): string => {
     const cartItem = cart.find((item: any) => item.productID === id);
     return String(cartItem!.quantity * Number(price));

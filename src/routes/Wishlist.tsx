@@ -74,14 +74,10 @@ const Wishlist = () => {
                 Product
               </th>
               <th scope="col" className="wishlist-product-th">
-                Price
+                Name
               </th>
-              <th scope="col" className="wishlist-product-th">
-                Add To Cart
-              </th>
-              <th scope="col" className="wishlist-product-th">
-                Delete
-              </th>
+              <th scope="col" className="wishlist-product-th"></th>
+              <th scope="col" className="wishlist-product-th"></th>
             </tr>
           </thead>
           <tbody>

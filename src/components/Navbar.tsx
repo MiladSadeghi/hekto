@@ -4,7 +4,7 @@ import { FaTelegram } from "react-icons/fa";
 import { BsFillPersonFill, BsFillSuitHeartFill } from "react-icons/bs";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { SlMagnifier } from "react-icons/sl";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../redux/hook";
 import { BounceLoader } from "react-spinners";
 
@@ -73,36 +73,44 @@ const Navbar: FC = (): ReactElement => {
             </h1>
             <ul className="flex font-Lato text-[#0D0E43]">
               <li className="mr-9">
-                <Link
+                <NavLink
                   to="/"
-                  className="hover:text-pink-cc duration-150 text-[#0D0E43]"
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
                 >
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li className="mr-9">
-                <Link
+                <NavLink
                   to="/products"
-                  className="hover:text-pink-cc duration-150 text-[#0D0E43]"
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
                 >
                   Shop
-                </Link>
+                </NavLink>
               </li>
               <li className="mr-9">
-                <Link
+                <NavLink
                   to="/contact-us"
-                  className="hover:text-pink-cc duration-150 text-[#0D0E43]"
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
                 >
                   Contact Us
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/about-us"
-                  className="hover:text-pink-cc duration-150 text-[#0D0E43]"
+                  className={({ isActive }) =>
+                    isActive ? "active-nav-link" : "nav-link"
+                  }
                 >
                   About Us
-                </Link>
+                </NavLink>
               </li>
             </ul>
             <div className="relative flex items-center pl-32">

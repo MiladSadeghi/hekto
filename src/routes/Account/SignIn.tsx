@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useFormik } from "formik";
 import { FC, ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -59,6 +62,41 @@ const SignIn: FC = (): ReactElement => {
     actions.setSubmitting(false);
   }
 
+  const resetPassword = async () => {
+    const wait = toast.loading("Please wait...");
+    try {
+      if (!errors.email) {
+        await sendPasswordResetEmail(auth, values.email);
+        toast.update(wait, {
+          render: "Reset password link sent to your email!.",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      } else {
+        toast.update(wait, {
+          render: "Email is invalid",
+          type: "warning",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      }
+    } catch (error: any) {
+      toast.update(wait, {
+        render: AccountErrors(error.code),
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+  };
+
   return (
     <>
       <div className="container mx-auto pt-28 pb-16 ">
@@ -98,7 +136,10 @@ const SignIn: FC = (): ReactElement => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <p className="mb-6 font-Lato text-[#9096B2] text-[17px]">
+            <p
+              className="mb-6 font-Lato text-[#9096B2] text-[17px]"
+              onClick={() => resetPassword()}
+            >
               Forgot your password?
             </p>
             <button

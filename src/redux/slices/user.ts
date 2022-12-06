@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { createNonNullChain } from "typescript";
 import { ECartSituation } from "../../enums/public.enum";
 import { fireStoreDB } from "../../helper/firebase.config";
 import { getCart } from "../../helper/firebase.data";
