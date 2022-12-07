@@ -18,13 +18,15 @@ import {
 } from "../../redux/slices/user";
 import { Product, TProductDetailsStars } from "../../types/IProducts.interface";
 import { ProductColors } from "../../types/IProducts.interface";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { ref, set, update } from "firebase/database";
+import { realTimeDB } from "../../helper/firebase.config";
 
 const ProductDetails: FC = (): ReactElement | null => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { uid, wishlist }: { uid: string; wishlist: any } = useAppSelector(
-    (state) => state.user
-  );
+  const { wishlist, guest, userName } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const { products: Products } = useAppSelector((state) => state.product);
@@ -36,7 +38,7 @@ const ProductDetails: FC = (): ReactElement | null => {
   const [toggleState, setToggleState] = useState<number>(1);
   const [mainImageIndex, setMainImageIndex] = useState<number>(0);
   const [color, setColor] = useState<ProductColors>();
-
+  const [index, setIndex] = useState<number>();
   const toggleTab = (index: number) => {
     setToggleState(index);
   };
@@ -64,7 +66,12 @@ const ProductDetails: FC = (): ReactElement | null => {
 
   useEffect(() => {
     const product: Product = Products.find(
-      (product: Product) => product.id === id
+      (product: Product, index: number) => {
+        if (product.id === id) {
+          setIndex(index);
+          return product;
+        } else return undefined;
+      }
     );
     if (product !== undefined && Products.length !== 0) {
       document.title = `Hekto - ${product?.title}`;
@@ -75,15 +82,69 @@ const ProductDetails: FC = (): ReactElement | null => {
           name: product.colors[0].name,
         });
       }
-      if (product.comments) setStars(votes(product.comments));
+      // if (product.comments) setStars(votes(product.comments));
     } else if (product === undefined && Products.length !== 0) {
       navigate("/404");
     }
   }, [Products]);
 
+  const submitComment = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const wait = toast.loading("Please wait...");
+    const target = e.target as typeof e.target & {
+      "rate-selector": { value: number };
+      message: { value: string };
+    };
+    const rate = target["rate-selector"].value;
+    const message = target["message"].value;
+    try {
+      if (message.length <= 10) {
+        toast.update(wait, {
+          render: "Short message!",
+          type: "error",
+          isLoading: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          autoClose: 3000,
+        });
+      } else {
+        const comments: any = [
+          ...(Products[index!].comments || []),
+          { user: userName, message, rate },
+        ];
+        await set(ref(realTimeDB, `product/${index}/comments`), comments);
+        toast.update(wait, {
+          render: "your comment submitted",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+        window.location.reload();
+      }
+    } catch (error: any) {
+      toast.update(wait, {
+        render: "Sorry! Try again later...",
+        type: "error",
+        isLoading: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        autoClose: 3000,
+      });
+    }
+  };
+
   if (!productDetails) return <Loader />;
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -153,7 +214,7 @@ const ProductDetails: FC = (): ReactElement | null => {
               <h2 className="text-3xl font-JosefinSans text-[#0D134E] font-bold mb-5">
                 {productDetails.title}
               </h2>
-              <div>
+              {/* <div>
                 {productDetails.comments && (
                   <div className="flex">
                     <div>
@@ -162,7 +223,7 @@ const ProductDetails: FC = (): ReactElement | null => {
                     <p>{stars.count}</p>
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className="flex mt-10">
                 <p
                   className={`${
@@ -267,7 +328,7 @@ const ProductDetails: FC = (): ReactElement | null => {
         <div className="container mx-auto py-24">
           <div className="flex">
             <h6
-              className={`font-JosefinSans text-2xl font-semibold text-navy-blue ${
+              className={`cursor-pointer font-JosefinSans text-2xl font-semibold text-navy-blue ${
                 toggleState === 1 ? "underline" : ""
               } mr-5`}
               onClick={(e) => toggleTab(1)}
@@ -275,7 +336,7 @@ const ProductDetails: FC = (): ReactElement | null => {
               Specification
             </h6>
             <h6
-              className={`font-JosefinSans text-2xl font-semibold text-navy-blue ${
+              className={`cursor-pointer font-JosefinSans text-2xl font-semibold text-navy-blue ${
                 toggleState === 2 ? "underline" : ""
               } mr-5`}
               onClick={(e) => toggleTab(2)}
@@ -284,7 +345,7 @@ const ProductDetails: FC = (): ReactElement | null => {
             </h6>
           </div>
           <div className="mt-10">
-            <div className={`${toggleState === 1 ? "block" : "hidden"} mr-5`}>
+            <div className={`${toggleState === 1 ? "block" : "hidden"}`}>
               {productDetails.specifications.map((specification) => (
                 <p
                   key={specification}
@@ -295,11 +356,80 @@ const ProductDetails: FC = (): ReactElement | null => {
                 </p>
               ))}
             </div>
-            <div></div>
+            <div
+              className={`${toggleState === 2 ? "flex columns-2" : "hidden"}`}
+            >
+              <div className="w-full">
+                {guest ? (
+                  <div className="h-[300px] w-full flex items-center justify-center">
+                    <p className="font-bold text-navy-blue text-xl">
+                      You should sign in first!.
+                    </p>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={(e) => submitComment(e)}
+                    className="flex flex-col pr-2"
+                  >
+                    <label
+                      htmlFor="rate-selector"
+                      className="mb-2 font-Lato text-navy-blue"
+                    >
+                      Rate
+                    </label>
+                    <select
+                      id="rate-selector"
+                      className="focus-within:outline-none w-full mb-5 border-[#C2C5E1] border-[1px] px-4 py-3 bg-white"
+                      defaultValue={5}
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                    </select>
+                    <label
+                      htmlFor="message"
+                      className="mb-2 font-Lato text-navy-blue"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      minLength={10}
+                      cols={30}
+                      rows={10}
+                      className="focus-within:outline-none w-full mb-5 border-[#C2C5E1] border-[1px] px-4 py-3 bg-white resize-none"
+                    />
+                    <button
+                      type="submit"
+                      className="py-2 text-white bg-pink-cc rounded-sm"
+                    >
+                      Submit Comment
+                    </button>
+                  </form>
+                )}
+              </div>
+              <div className="w-full">
+                {productDetails.comments ? (
+                  <p>test</p>
+                ) : (
+                  <div
+                    className={`${
+                      guest ? "h-[300px]" : "h-full"
+                    } flex items-center justify-center`}
+                  >
+                    <p className="font-bold text-navy-blue text-xl ">
+                      No comments yet, You want to be first?
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

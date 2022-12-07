@@ -4,11 +4,19 @@ import doneIMG from "../../images/done.png";
 import clockIMG from "../../images/clock.png";
 import checkListIMG from "../../images/checklist.png";
 import Logos from "../Home/Logos";
+import { motion } from "framer-motion";
 
 const OrderComplete: FC = (): ReactElement => {
   document.title = "Hekto - Order Complete";
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -46,7 +54,7 @@ const OrderComplete: FC = (): ReactElement => {
         </div>
         <Logos />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

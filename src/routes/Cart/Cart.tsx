@@ -13,6 +13,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { TCart, ICartProps } from "../../types/user.types";
 import { ECartSituation } from "../../enums/public.enum";
+import { motion } from "framer-motion";
 
 const Cart: FC<ICartProps> = ({
   cartProducts,
@@ -43,7 +44,7 @@ const Cart: FC<ICartProps> = ({
   };
 
   return (
-    <div>
+    <motion.div>
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto flex">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -217,7 +218,7 @@ const Cart: FC<ICartProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

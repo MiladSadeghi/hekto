@@ -14,17 +14,20 @@ import {
 } from "../../redux/slices/user";
 import { Product } from "../../types/IProducts.interface";
 import { TProductListSort } from "../../types/public.types";
+import { motion } from "framer-motion";
 
 const ProductsList = () => {
   document.title = "Hekto - Products";
   const [searchParams, setSearchParams] = useSearchParams();
   const { products } = useAppSelector((state) => state.product);
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<any>({
+    text: "",
+  });
   const [sort, setSort] = useState<TProductListSort>("regular");
   const { loading: listedLoading, listedProduct } = useAppSelector(
     (state) => state.list
   );
-  const { uid, wishlist } = useAppSelector((state) => state.user);
+  const { wishlist } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const isMount1 = useRef(false);
   const isMount2 = useRef(false);
@@ -32,7 +35,9 @@ const ProductsList = () => {
   useEffect(() => {
     if (!!products.length) {
       if (searchParams.get("search")) {
-        setSearchText(() => String(searchParams.get("search")));
+        setSearchText({
+          text: String(searchParams.get("search")),
+        });
       } else {
         dispatch(regular({ products, search: "" }));
       }
@@ -41,11 +46,14 @@ const ProductsList = () => {
 
   useEffect(() => {
     if (isMount1.current) {
-      dispatch(regular({ products, search: searchText }));
-      searchParams.set("search", searchText);
-      setSearchParams(searchParams);
-      document.title = `Hekto - ${searchText}`;
-      setSort("regular");
+      const getData = setTimeout(() => {
+        dispatch(regular({ products, search: searchText.text }));
+        setSearchParams({ search: String(searchText.text) });
+        document.title = `Hekto - ${searchText.text}`;
+        setSort("regular");
+      }, 450);
+
+      return () => clearTimeout(getData);
     } else {
       isMount1.current = true;
     }
@@ -71,7 +79,14 @@ const ProductsList = () => {
 
   if (!!!products.length) return <Loader />;
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -101,14 +116,22 @@ const ProductsList = () => {
               <input
                 className="px-4 py-2.5 outline-none border-2 border-[#E7E6EF] h-[35px] ml-4"
                 type="search"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                value={searchText.text}
+                onChange={(e) =>
+                  setSearchText({
+                    text: e.target.value,
+                  })
+                }
               />
             </div>
           </div>
           <div className="w-full">
             {listedLoading ? (
               <Loader />
+            ) : !listedLoading && listedProduct.length === 0 ? (
+              <p className="text-center text-2xl font-Lato text-navy-blue mb-10 font-bold">
+                Nothing Found
+              </p>
             ) : (
               listedProduct.map((product: Product) => (
                 <div
@@ -227,7 +250,7 @@ const ProductsList = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

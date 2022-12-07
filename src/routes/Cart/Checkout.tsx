@@ -6,7 +6,10 @@ import { clearUserCart } from "../../redux/slices/user";
 import { Product } from "../../types/IProducts.interface";
 import { ICartProps } from "../../types/user.types";
 import { OrderCompleteSchema } from "../../Validation/order";
-
+import { motion } from "framer-motion";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { CHANGE_CART_SITUATION } from "../../redux/slices/user";
+import { ECartSituation } from "../../enums/public.enum";
 const Checkout: React.FC<ICartProps> = ({
   cartProducts,
   cart,
@@ -15,7 +18,7 @@ const Checkout: React.FC<ICartProps> = ({
   document.title = "Hekto - Checkout";
   const productTotalPrice = (id: string, price: string | undefined): string => {
     const cartItem = cart.find((item: any) => item.productID === id);
-    return String(cartItem!.quantity * Number(price));
+    return String((cartItem!.quantity * Number(price)).toFixed(2));
   };
   const dispatch = useAppDispatch();
 
@@ -44,14 +47,30 @@ const Checkout: React.FC<ICartProps> = ({
   }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
-        <div className="container mx-auto flex">
+        <div className="container mx-auto flex flex-col">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
             Checkout
           </h1>
+          <button
+            className="text-sm font-Lato flex items-center text-[#101750] mt-3"
+            onClick={() =>
+              dispatch(CHANGE_CART_SITUATION(ECartSituation.First))
+            }
+          >
+            <HiOutlineArrowNarrowLeft className="mr-2" /> Back To Cart
+          </button>
         </div>
       </div>
+
       <div className="container mx-auto mt-24 mb-28">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-9">
@@ -231,7 +250,7 @@ const Checkout: React.FC<ICartProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

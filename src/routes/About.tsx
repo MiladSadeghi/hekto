@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import client1 from "../images/client-1.png";
 import client2 from "../images/client-2.png";
 import client3 from "../images/client-3.png";
+import { motion } from "framer-motion";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -30,7 +31,14 @@ const About: FC = (): ReactElement => {
   ];
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -126,7 +134,7 @@ const About: FC = (): ReactElement => {
           </Swiper>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

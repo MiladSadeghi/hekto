@@ -8,6 +8,7 @@ import { HiMinus } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { getUserData } from "../helper/firebase.data";
 import { addToCart, removeFromWishlist } from "../redux/slices/user";
+import { motion } from "framer-motion";
 
 const Wishlist = () => {
   document.title = "Hekto - Wishlist";
@@ -42,7 +43,15 @@ const Wishlist = () => {
   if (wishlistProducts === undefined) return <Loader />;
   if (wishlistProducts.length === 0)
     return (
-      <div className=" container mx-auto flex flex-col items-center justify-center py-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: "100%",
+          transition: { duration: 0.3 },
+        }}
+        exit={{ opacity: 0, transition: { duration: 0.2 } }}
+        className=" container mx-auto flex flex-col items-center justify-center py-20"
+      >
         <img
           className="md:w-1/3 sm:w-full"
           src={EmptyWishlist}
@@ -51,7 +60,7 @@ const Wishlist = () => {
         <h2 className="font-JosefinSans text-4xl mt-10 font-bold text-navy-blue">
           Your Wishlist Are Empty!
         </h2>
-      </div>
+      </motion.div>
     );
   return (
     <div>

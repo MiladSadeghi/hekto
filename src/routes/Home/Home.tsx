@@ -9,11 +9,19 @@ import TopCategories from "./TopCategories";
 import TrendingProducts from "./TrendingProducts";
 import UniqueFurniture from "./UniqueFurniture";
 import UpdateBanner from "./UpdateBanner";
+import { motion } from "framer-motion";
 
 const Home = () => {
   document.title = "Hekto";
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <Header />
       <FeaturedProducts />
       <LatestProducts />
@@ -27,7 +35,7 @@ const Home = () => {
       <TopCategories />
       <UpdateBanner />
       <Logos />
-    </>
+    </motion.div>
   );
 };
 

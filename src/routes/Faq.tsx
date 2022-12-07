@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from "react";
 import Logos from "./Home/Logos";
+import { motion } from "framer-motion";
 
 const Faq: FC = (): ReactElement => {
   document.title = "Hekto - FAQ";
@@ -23,7 +24,14 @@ const Faq: FC = (): ReactElement => {
   ];
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: "100%",
+        transition: { duration: 0.3 },
+      }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
       <div className="bg-[#F6F5FF] py-16">
         <div className="container mx-auto">
           <h1 className="font-JosefinSans font-bold text-3xl text-[#101750]">
@@ -78,7 +86,7 @@ const Faq: FC = (): ReactElement => {
         </div>
         <Logos />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

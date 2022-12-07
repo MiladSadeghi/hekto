@@ -12,16 +12,20 @@ const productRegularList = createSlice({
   initialState,
   reducers: {
     lowest(state, action) {
-      state.listedProduct = action.payload?.slice().sort((a: any, b: any) => a.price - b.price)
+      state.loading = true;
+      state.listedProduct = action.payload?.slice().sort((a: any, b: any) => a.price - b.price);
+      state.loading = false;
     },
     highest(state, action) {
-      state.listedProduct = action.payload?.slice().sort((a: any, b: any) => b.price - a.price)
+      state.loading = true;
+      state.listedProduct = action.payload?.slice().sort((a: any, b: any) => b.price - a.price);
+      state.loading = false;
     },
     regular(state, { payload }) {
-      console.log(payload.products)
+      state.loading = true;
       const filteredProducts = payload.products.filter((product: Product) => product.title.toLowerCase().includes(payload.search.toLowerCase()))
-      console.log(filteredProducts)
-      state.listedProduct = filteredProducts
+      state.listedProduct = filteredProducts;
+      state.loading = false;
     }
   },
 })

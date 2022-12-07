@@ -192,7 +192,7 @@ export const removeFromWishlist = createAsyncThunk("user/removeFromWishlist", as
     toast.update(wait, { render: "Removed from wishlist!.", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true, pauseOnHover: true, });
     return newWishlist
   } catch (error: any) {
-    toast.update(wait, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, });
+    toast.update(wait, { render: "Sorry! Try again later...", type: "error", isLoading: false, closeOnClick: true, pauseOnHover: true, autoClose: 3000 });
   }
 })
 
