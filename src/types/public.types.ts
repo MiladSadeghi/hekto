@@ -15,4 +15,10 @@ export type TShopOffer = {
   classes: string
 }
 
+export type TComment = {
+  user: string;
+  rate: string;
+  message: string;
+}
+
 export type TProductListSort = "regular" | "highest" | "lowest";

@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { ref, set, update } from "firebase/database";
 import { realTimeDB } from "../../helper/firebase.config";
+import { TComment } from '../../types/public.types';
 
 const ProductDetails: FC = (): ReactElement | null => {
   const { id } = useParams();
@@ -44,24 +45,32 @@ const ProductDetails: FC = (): ReactElement | null => {
   };
 
   const votes = (obj: any) => {
-    const votes = obj.map((item: any) => item.vote);
+    const votes = obj.map((item: any) => parseInt(item.rate));
     const arrAvg = votes.reduce((a: any, b: any) => a + b, 0) / votes.length;
+    console.log(votes, votes.length)
     return {
       star: Math.floor(arrAvg),
       count: votes.length,
     };
   };
 
-  const Stars: FC<any> = ({ numb }: { numb: number }): any => {
+  const Stars: FC<any> = ({numb}: {numb: any}): React.ReactElement => {
     let star = [];
-    for (let i = 1; i >= 5; i++) {
+    console.log(parseInt(numb))
+    for (let i = 1; i <= 5; i++) {
       if (i <= numb) {
-        star.push(<AiOutlineStar />);
+        star.push(<AiFillStar fontSize={20} />);
       } else {
-        star.push(<AiFillStar />);
+        star.push(<AiOutlineStar fontSize={20} />);
       }
     }
-    return star;
+    return (
+      <div className="flex items-center ml-2">
+        {
+          star.map((item: any, index: number) => <div className="text-orange-300" key={index}>{item}</div>)
+        }
+      </div>
+    )
   };
 
   useEffect(() => {
@@ -82,7 +91,7 @@ const ProductDetails: FC = (): ReactElement | null => {
           name: product.colors[0].name,
         });
       }
-      // if (product.comments) setStars(votes(product.comments));
+      if (product.comments) setStars(votes(product.comments));
     } else if (product === undefined && Products.length !== 0) {
       navigate("/404");
     }
@@ -214,16 +223,16 @@ const ProductDetails: FC = (): ReactElement | null => {
               <h2 className="text-3xl font-JosefinSans text-[#0D134E] font-bold mb-5">
                 {productDetails.title}
               </h2>
-              {/* <div>
+              <div>
                 {productDetails.comments && (
-                  <div className="flex">
+                  <div className="flex items-center">
                     <div>
                       <Stars numb={stars.star} />
                     </div>
-                    <p>{stars.count}</p>
+                    <p className="ml-2 font-Lato"> - ({stars.count})</p>
                   </div>
                 )}
-              </div> */}
+              </div>
               <div className="flex mt-10">
                 <p
                   className={`${
@@ -412,7 +421,19 @@ const ProductDetails: FC = (): ReactElement | null => {
               </div>
               <div className="w-full">
                 {productDetails.comments ? (
-                  <p>test</p>
+                  <div className="px-4">
+                    {
+                      productDetails.comments.map((comment: TComment, index: number) => (
+                        <div key={index} className="py-8 px-7 bg-slate-100 rounded-md">
+                          <div className="flex">
+                            <h3 className="font-JosefinSans text-lg font-bold text-navy-blue">{comment.user} - </h3>
+                            <Stars numb={comment.rate}  />
+                          </div>
+                          <p className="mt-2 font-Lato">{comment.message}</p>
+                        </div>
+                      ))
+                    }
+                  </div>
                 ) : (
                   <div
                     className={`${
