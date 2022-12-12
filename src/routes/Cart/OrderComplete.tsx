@@ -27,7 +27,7 @@ const OrderComplete: FC = (): ReactElement => {
       <div className="container mx-auto">
         <div className="my-32 flex flex-col items-center relative">
           <img src={doneIMG} alt="done" />
-          <h6 className="text-4xl font-bold text-[#101750] font-JosefinSans mt-5 mb-7">
+          <h6 className="text-4xl font-bold text-[#101750] font-JosefinSans mt-5 mb-7 text-center">
             Your Order Is Completed!
           </h6>
           <p className="font-semibold font-Lato text-[#8D92A7] w-6/12 text-center">
@@ -43,13 +43,13 @@ const OrderComplete: FC = (): ReactElement => {
           </Link>
           <img
             src={clockIMG}
-            className="absolute left-0 top-10"
+            className="absolute left-0 top-10 -z-10"
             alt="clock icon"
           />
           <img
             src={checkListIMG}
             className="absolute -bottom-20 right-0"
-            alt="clock checklist"
+            alt="checklist icon"
           />
         </div>
         <Logos />

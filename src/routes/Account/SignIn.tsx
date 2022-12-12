@@ -85,7 +85,7 @@ const SignIn: FC = (): ReactElement => {
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
       className="container mx-auto pt-28 pb-16 "
     >
-      <div className="flex flex-col w-5/12 mx-auto p-14 shadow-[0_0_25px_10px_#f8f8fb] mb-16">
+      <div className="flex flex-col mx-auto p-14 shadow-[0_0_25px_10px_#f8f8fb] mb-16">
         <div className="text-center mb-5">
           <h5 className="font-JosefinSans font-bold text-3xl mb-1">Login</h5>
           <p className="text-[17px] text-[#9096B2] font-Lato">

@@ -42,7 +42,7 @@ const DiscountItems = () => {
           </span>
         ))}
       </div>
-      <div className="flex gap-12">
+      <div className="flex gap-12 md:flex-wrap lg:flex-nowrap flex-col-reverse lg:flex-row">
         <div className="w-full flex flex-col justify-center">
           <h5 className="font-JosefinSans text-navy-blue text-[35px] font-bold">
             20% Discount Of All Products

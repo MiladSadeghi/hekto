@@ -54,129 +54,135 @@ const Cart: FC<ICartProps> = ({
       </div>
       <div className="container mx-auto my-24">
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-9">
-            <table className="text-left">
-              <thead className="mb-2">
-                <tr className="mb-2">
-                  <th scope="col" className="cart-product-th">
-                    Product
-                  </th>
-                  <th scope="col" className="cart-product-th">
-                    Price
-                  </th>
-                  <th scope="col" className="cart-product-th">
-                    Quantity
-                  </th>
-                  <th scope="col" className="cart-product-th">
-                    Total Price
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartProducts.map((product: Product) => (
-                  <tr key={product.id} className="border-b border-gray-300">
-                    <td className="py-4 px-6 font-medium text-gray-900 dark:text-white flex w-full">
-                      <div className="relative">
-                        <img
-                          className="w-[87px]"
-                          src={
-                            product.imagesByColor
-                              ? product.imagesByColor[
-                                  product.colors!![0].name
-                                ][0]
-                              : product.images[0]
-                          }
-                          alt={product.title}
-                        />
-                        <div
-                          className="absolute -top-[7px] -right-[7px] cursor-pointer"
-                          onClick={() =>
-                            dispatch(removeCartItem({ productID: product.id }))
-                          }
-                        >
-                          <RiCloseCircleFill size={16} />
-                        </div>
-                      </div>
-                      <div className="flex flex-col my-auto ml-2">
-                        <Link to={`/product-details/${product.id}`}>
-                          <h2 className="font-JosefinSans text-sm font-semibold">
-                            {product.title}
-                          </h2>
-                        </Link>
-                        {(() => {
-                          const color = cart.find(
-                            (item) => item.productID === product.id
-                          )?.color;
-                          if (color) {
-                            return (
-                              <p className="font-JosefinSans text-xs font-semibold mt-2 text-[#A1A8C1]">
-                                Color: <span className="text-sm">{color}</span>
-                              </p>
-                            );
-                          }
-                        })()}
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      {product.discount ? (
-                        <h2 className="text-pink-cc font-JosefinSans">
-                          ${product.discount}
-                        </h2>
-                      ) : (
-                        <h2 className="text-navy-blue font-JosefinSans">
-                          ${product.price}
-                        </h2>
-                      )}
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex">
-                        <button
-                          className="w-full bg-[#E7E7EF]"
-                          onClick={() =>
-                            dispatch(CHANGE_QT({ id: product.id, amount: -1 }))
-                          }
-                        >
-                          <HiMinusSm className="m-auto" color="#BEBFC2" />
-                        </button>
-                        <input
-                          type="text"
-                          min={1}
-                          className="outline-none w-10 text-center text-[#BEBFC2] bg-[#f5f5f6]"
-                          value={(() => {
-                            const value: TCart | undefined = cart.find(
-                              (item: any) => item.productID === product.id
-                            );
-                            return value?.quantity;
-                          })()}
-                          readOnly
-                        />
-                        <button
-                          className="w-full bg-[#E7E7EF]"
-                          onClick={() =>
-                            dispatch(CHANGE_QT({ id: product.id, amount: 1 }))
-                          }
-                        >
-                          <HiPlusSm className="m-auto" color="#BEBFC2" />
-                        </button>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <h2
-                        className={`${
-                          product.price ? "text-navy-blue" : "text-pink-cc"
-                        } font-JosefinSans`}
-                      >
-                        $
-                        {productTotalPrice(
-                          product.id,
-                          product.price ? product.price! : product.discount!
-                        )}
-                      </h2>
-                    </td>
+          <div className="col-span-12 lg:col-span-9">
+            <div className="overflow-x-auto">
+              <table className="text-left">
+                <thead className="mb-2">
+                  <tr className="mb-2">
+                    <th scope="col" className="cart-product-th">
+                      Product
+                    </th>
+                    <th scope="col" className="cart-product-th">
+                      Price
+                    </th>
+                    <th scope="col" className="cart-product-th">
+                      Quantity
+                    </th>
+                    <th scope="col" className="cart-product-th">
+                      Total Price
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {cartProducts.map((product: Product) => (
+                    <tr key={product.id} className="border-b border-gray-300">
+                      <td className="py-4 px-6 font-medium text-gray-900 flex w-full">
+                        <div className="relative w-[87px]">
+                          <img
+                            src={
+                              product.imagesByColor
+                                ? product.imagesByColor[
+                                    product.colors!![0].name
+                                  ][0]
+                                : product.images[0]
+                            }
+                            alt={product.title}
+                          />
+                          <div
+                            className="absolute -top-[7px] -right-[7px] cursor-pointer"
+                            onClick={() =>
+                              dispatch(
+                                removeCartItem({ productID: product.id })
+                              )
+                            }
+                          >
+                            <RiCloseCircleFill size={16} />
+                          </div>
+                        </div>
+                        <div className="flex flex-col my-auto ml-2">
+                          <Link to={`/product-details/${product.id}`}>
+                            <h2 className="font-JosefinSans text-sm font-semibold whitespace-nowrap">
+                              {product.title}
+                            </h2>
+                          </Link>
+                          {(() => {
+                            const color = cart.find(
+                              (item) => item.productID === product.id
+                            )?.color;
+                            if (color) {
+                              return (
+                                <p className="font-JosefinSans text-xs font-semibold mt-2 text-[#A1A8C1]">
+                                  Color:{" "}
+                                  <span className="text-sm">{color}</span>
+                                </p>
+                              );
+                            }
+                          })()}
+                        </div>
+                      </td>
+                      <td className="py-4 px-6">
+                        {product.discount ? (
+                          <h2 className="text-pink-cc font-JosefinSans">
+                            ${product.discount}
+                          </h2>
+                        ) : (
+                          <h2 className="text-navy-blue font-JosefinSans">
+                            ${product.price}
+                          </h2>
+                        )}
+                      </td>
+                      <td className="py-4 px-6">
+                        <div className="flex">
+                          <button
+                            className="w-full bg-[#E7E7EF]"
+                            onClick={() =>
+                              dispatch(
+                                CHANGE_QT({ id: product.id, amount: -1 })
+                              )
+                            }
+                          >
+                            <HiMinusSm className="m-auto" color="#BEBFC2" />
+                          </button>
+                          <input
+                            type="text"
+                            min={1}
+                            className="outline-none w-10 text-center text-[#BEBFC2] bg-[#f5f5f6]"
+                            value={(() => {
+                              const value: TCart | undefined = cart.find(
+                                (item: any) => item.productID === product.id
+                              );
+                              return value?.quantity;
+                            })()}
+                            readOnly
+                          />
+                          <button
+                            className="w-full bg-[#E7E7EF]"
+                            onClick={() =>
+                              dispatch(CHANGE_QT({ id: product.id, amount: 1 }))
+                            }
+                          >
+                            <HiPlusSm className="m-auto" color="#BEBFC2" />
+                          </button>
+                        </div>
+                      </td>
+                      <td className="py-4 px-6">
+                        <h2
+                          className={`${
+                            product.price ? "text-navy-blue" : "text-pink-cc"
+                          } font-JosefinSans`}
+                        >
+                          $
+                          {productTotalPrice(
+                            product.id,
+                            product.price ? product.price! : product.discount!
+                          )}
+                        </h2>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="mt-5">
               <button
                 className="px-4 py-2 bg-pink-cc rounded-sm text-white font-JosefinSans"
@@ -186,7 +192,7 @@ const Cart: FC<ICartProps> = ({
               </button>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-12 lg:col-span-3">
             <div className="w-full">
               <h5 className="py-3 px-6 font-JosefinSans text-xl text-navy-blue font-bold text-center mb-2">
                 Cart Total

@@ -4,14 +4,14 @@
   background: none;
   width: 9px;
   height: 9px;
-  border: 1.5px solid #FB2E86;
+  border: 1.5px solid #fb2e86;
   margin-right: 10px !important;
   opacity: 1;
   transition: all 0.3s ease-in-out;
 }
 
 .header .swiper-pagination-bullet-active {
-  background: #FB2E86;
+  background: #fb2e86;
 }
 
 .featured-products .swiper-wrapper {
@@ -19,7 +19,7 @@
 }
 
 .featured-products .swiper-pagination-bullet {
-  background: #FEBAD7;
+  background: #febad7;
   border-radius: 10px;
   width: 16px;
   height: 4px;
@@ -27,12 +27,12 @@
 }
 
 .featured-products .swiper-pagination-bullet-active {
-  background: #FB2E86;
+  background: #fb2e86;
   width: 24px;
 }
 
 .top-categories .swiper-wrapper {
-  margin-bottom: 40px;
+  margin-bottom: 80px;
 }
 
 .top-categories .swiper-pagination-bullet {
@@ -40,14 +40,14 @@
   background: none;
   width: 10px;
   height: 10px;
-  border: 1.5px solid #FB2E86;
+  border: 1.5px solid #fb2e86;
   margin-right: 10px !important;
   opacity: 1;
   transition: all 0.3s ease-in-out;
 }
 
 .top-categories .swiper-pagination-bullet-active {
-  background: #FB2E86;
+  background: #fb2e86;
 }
 
 .about-us .swiper-wrapper {
@@ -58,13 +58,13 @@
   border-radius: 3px !important;
   height: 5px;
   padding: 0 10px;
-  background: #FF75B0;
+  background: #ff75b0;
   margin-right: 5px !important;
   opacity: 1;
   transition: all 0.2s ease-in-out;
 }
 
 .about-us .swiper-pagination-bullet-active {
-  background: #FB2E86;
+  background: #fb2e86;
   padding: 0 15px;
 }

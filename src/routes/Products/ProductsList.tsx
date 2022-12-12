@@ -96,7 +96,7 @@ const ProductsList = () => {
       </div>
       <div className="container mx-auto mt-20">
         <div>
-          <div className="flex items-center justify-between mb-20">
+          <div className="flex items-center justify-between mb-20 flex-col md:flex-row">
             <h5 className="font-JosefinSans font-bold text-2xl text-navy-blue">
               Furniture Ecommerce
             </h5>
@@ -136,9 +136,9 @@ const ProductsList = () => {
               listedProduct.map((product: Product) => (
                 <div
                   key={product.id}
-                  className="flex items-center mb-10 p-4 gap-6"
+                  className="flex items-center mb-10 p-4 gap-6 flex-col sm:flex-row"
                 >
-                  <div className="w-1/6">
+                  <div className="w-3/6 sm:w-1/6">
                     <div>
                       <img
                         className="w-full bg-gray-50 rounded-sm p-2"
@@ -152,7 +152,7 @@ const ProductsList = () => {
                     </div>
                   </div>
                   <div className="w-5/6">
-                    <div className="flex">
+                    <div className="flex flex-col sm:flex-row">
                       <Link
                         to={`/product-details/${product.id}`}
                         className="font-JosefinSans font-bold text-xl text-[#111C85] mr-6"
@@ -160,7 +160,7 @@ const ProductsList = () => {
                         {product.title}
                       </Link>
                       {product.colors && (
-                        <div className="flex items-center">
+                        <div className="flex items-center my-3 sm:my-0">
                           {product.colors.map((item: any) => (
                             <div className="relative mr-4" key={item.code}>
                               <div

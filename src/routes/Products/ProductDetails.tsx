@@ -20,9 +20,9 @@ import { Product, TProductDetailsStars } from "../../types/IProducts.interface";
 import { ProductColors } from "../../types/IProducts.interface";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { ref, set, update } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { realTimeDB } from "../../helper/firebase.config";
-import { TComment } from '../../types/public.types';
+import { TComment } from "../../types/public.types";
 
 const ProductDetails: FC = (): ReactElement | null => {
   const { id } = useParams();
@@ -47,16 +47,14 @@ const ProductDetails: FC = (): ReactElement | null => {
   const votes = (obj: any) => {
     const votes = obj.map((item: any) => parseInt(item.rate));
     const arrAvg = votes.reduce((a: any, b: any) => a + b, 0) / votes.length;
-    console.log(votes, votes.length)
     return {
       star: Math.floor(arrAvg),
       count: votes.length,
     };
   };
 
-  const Stars: FC<any> = ({numb}: {numb: any}): React.ReactElement => {
+  const Stars: FC<any> = ({ numb }: { numb: any }): React.ReactElement => {
     let star = [];
-    console.log(parseInt(numb))
     for (let i = 1; i <= 5; i++) {
       if (i <= numb) {
         star.push(<AiFillStar fontSize={20} />);
@@ -66,11 +64,13 @@ const ProductDetails: FC = (): ReactElement | null => {
     }
     return (
       <div className="flex items-center ml-2">
-        {
-          star.map((item: any, index: number) => <div className="text-orange-300" key={index}>{item}</div>)
-        }
+        {star.map((item: any, index: number) => (
+          <div className="text-orange-300" key={index}>
+            {item}
+          </div>
+        ))}
       </div>
-    )
+    );
   };
 
   useEffect(() => {
@@ -163,9 +163,9 @@ const ProductDetails: FC = (): ReactElement | null => {
       </div>
       <div className="container mx-auto">
         <div className="mt-24 mb-28">
-          <div className="w-full shadow-[0_0_25px_10px_#f6f4fd] flex px-3 py-3 rounded-sm">
-            <div className="w-full flex items-center gap-4">
-              <div className="w-1/4 grid grid-cols-1 gap-2 h-full content-between">
+          <div className="w-full shadow-[0_0_25px_10px_#f6f4fd] flex px-3 py-3 rounded-sm flex-col lg:flex-row">
+            <div className="w-full flex items-center gap-4 flex-col-reverse md:flex-row">
+              <div className="md:w-1/4  grid grid-cols-3 md:grid-cols-1 gap-2 h-full content-between">
                 {productDetails.imagesByColor
                   ? productDetails.imagesByColor[color!.name].map(
                       (image: string, index: number) => (
@@ -366,7 +366,9 @@ const ProductDetails: FC = (): ReactElement | null => {
               ))}
             </div>
             <div
-              className={`${toggleState === 2 ? "flex columns-2" : "hidden"}`}
+              className={` ${
+                toggleState === 2 ? "columns-1 md:columns-2" : "hidden"
+              }`}
             >
               <div className="w-full">
                 {guest ? (
@@ -378,7 +380,7 @@ const ProductDetails: FC = (): ReactElement | null => {
                 ) : (
                   <form
                     onSubmit={(e) => submitComment(e)}
-                    className="flex flex-col pr-2"
+                    className="flex flex-col md:pr-2 mb-4 md:mb-0"
                   >
                     <label
                       htmlFor="rate-selector"
@@ -421,18 +423,23 @@ const ProductDetails: FC = (): ReactElement | null => {
               </div>
               <div className="w-full">
                 {productDetails.comments ? (
-                  <div className="px-4">
-                    {
-                      productDetails.comments.map((comment: TComment, index: number) => (
-                        <div key={index} className="py-8 px-7 bg-slate-100 rounded-md">
+                  <div className="md:px-4">
+                    {productDetails.comments.map(
+                      (comment: TComment, index: number) => (
+                        <div
+                          key={index}
+                          className="py-8 px-7 bg-slate-100 rounded-md"
+                        >
                           <div className="flex">
-                            <h3 className="font-JosefinSans text-lg font-bold text-navy-blue">{comment.user} - </h3>
-                            <Stars numb={comment.rate}  />
+                            <h3 className="font-JosefinSans text-lg font-bold text-navy-blue">
+                              {comment.user} -{" "}
+                            </h3>
+                            <Stars numb={comment.rate} />
                           </div>
                           <p className="mt-2 font-Lato">{comment.message}</p>
                         </div>
-                      ))
-                    }
+                      )
+                    )}
                   </div>
                 ) : (
                   <div

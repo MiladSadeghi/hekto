@@ -47,10 +47,10 @@ const About: FC = (): ReactElement => {
         </div>
       </div>
       <div className="container mx-auto mt-32 mb-36">
-        <div className="flex w-full mb-28">
+        <div className="flex w-full mb-28 gap-8 flex-col md:flex-row">
           <div className="w-full">
-            <div className="relative before:absolute before:top-0 before:right-14 before:bg-navy-blue before:w-[86%] before:h-[104%] before:rounded-md m-auto before:-z-10 ">
-              <img className="mx-auto " src={ManagementIMG} alt="management" />
+            <div className="relative before:absolute before:top-0 before:right-4 before:bg-navy-blue before:w-[98.7%] before:h-[104%] before:rounded-md m-auto before:-z-10 before:hidden md:before:block">
+              <img className="w-full" src={ManagementIMG} alt="management" />
             </div>
           </div>
           <div className="w-full">

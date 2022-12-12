@@ -14,9 +14,9 @@ const UniqueFurniture = () => {
 
   if (uniqueFurniture === undefined) return null;
   return (
-    <div className="bg-[#f1f0ff]">
+    <div className="bg-[#f1f0ff] pb-7 lg:pb-0">
       <div className="container mx-auto">
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap lg:flex-nowrap">
           <div className="flex items-center justify-center w-full relative">
             <img
               src={BGImg}

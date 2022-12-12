@@ -23,7 +23,7 @@ const Contact: FC = (): ReactElement => {
         </div>
       </div>
       <div className="container mx-auto mt-32 mb-36">
-        <div className="grid grid-cols-2 gap-10 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 w-full">
           <div className="w-full flex flex-col">
             <h5 className="text-4xl font-bold font-JosefinSans text-navy-blue mb-5">
               Information About us
@@ -44,13 +44,13 @@ const Contact: FC = (): ReactElement => {
             <h5 className="text-4xl font-bold font-JosefinSans text-navy-blue mb-5">
               Contact Way
             </h5>
-            <div className="grid grid-cols-2 gap-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
               <div className="flex w-full">
-                <div className="w-[45px] h-[45px] bg-[#5726DF] mr-3 rounded-full" />
+                <div className="min-w-[45px] min-h-[45px] bg-[#5726DF] mr-3 rounded-full" />
                 <div className="flex flex-col my-auto">
                   <a
                     href="mailto:MiladSadeghi2323@gmail.com"
-                    className="text-[#8A8FB9] flex items-center font-Lato font-semibold text-sm"
+                    className="text-[#8A8FB9] flex items-center font-Lato font-semibold text-sm whitespace-nowrap"
                   >
                     <HiMail />: MiladSadeghi2323@gmail.com
                   </a>
@@ -64,20 +64,20 @@ const Contact: FC = (): ReactElement => {
                   </a>
                 </div>
               </div>
-              <div className="flex w-full">
-                <div className="w-[45px] h-[45px] bg-pink-cc mr-3 rounded-full" />
+              <div className="flex w-full items-center">
+                <div className="min-w-[45px] min-h-[45px] bg-pink-cc mr-3 rounded-full" />
                 <p className="font-Lato font-semibold text-base text-[#8A8FB9] w-9/12 my-auto">
                   Support Forum For Over 24Hours
                 </p>
               </div>
-              <div className="flex w-full">
-                <div className="w-[45px] h-[45px] bg-[#FFB265] mr-3 rounded-full" />
+              <div className="flex w-full items-center">
+                <div className="min-w-[45px] min-h-[45px] h-[45px] bg-[#FFB265] mr-3 rounded-full" />
                 <p className="font-Lato font-semibold text-base text-[#8A8FB9] inline-block my-auto">
                   On Your Heart <FaHeart className="text-red-500 inline" />
                 </p>
               </div>
-              <div className="flex w-full">
-                <div className="w-[45px] h-[45px] bg-[#1BE982] mr-3 rounded-full" />
+              <div className="flex w-full items-center">
+                <div className="min-w-[45px] min-h-[45px] bg-[#1BE982] mr-3 rounded-full" />
                 <p className="font-Lato font-semibold text-base text-[#8A8FB9] w-9/12">
                   Free Standard Shipping On All Orders
                 </p>

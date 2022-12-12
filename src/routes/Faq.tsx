@@ -40,7 +40,7 @@ const Faq: FC = (): ReactElement => {
         </div>
       </div>
       <div className="container mx-auto mt-24 mb-20">
-        <div className="flex gap-8 mb-20">
+        <div className="flex flex-col sm:flex-row gap-8 mb-20">
           <div className="w-full">
             <h5 className="text-[#1D3178] font-bold text-4xl font-JosefinSans mb-16">
               General Information

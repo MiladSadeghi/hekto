@@ -25,7 +25,7 @@ const LatestProducts = () => {
       <h1 className="font-JosefinSans text-center text-[#1A0B5B] text-[42px] font-bold mb-10">
         Latest Products
       </h1>
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-wrap">
         {Object.values(ELatestSection).map((item: any, index: number) => (
           <p
             onClick={() => setSection(item)}
@@ -38,7 +38,7 @@ const LatestProducts = () => {
           </p>
         ))}
       </div>
-      <div className="mt-7 grid grid-cols-3 gap-x-10 gap-y-20">
+      <div className="mt-7 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-10 gap-y-20">
         {latestProducts.map((product: Product) => (
           <LPCards data={product} key={product.id} />
         ))}

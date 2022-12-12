@@ -28,8 +28,24 @@ const TopCategories = () => {
 
       <Swiper
         modules={[Pagination]}
-        slidesPerView={4}
-        slidesPerGroup={4}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+          },
+          768: {
+            slidesPerView: 2,
+            slidesPerGroup: 2,
+          },
+          1280: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+          },
+          1536: {
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+          },
+        }}
         spaceBetween={50}
         pagination={{ clickable: true }}
         className="mySwiper top-categories px-2"

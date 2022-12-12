@@ -73,7 +73,7 @@ const Checkout: React.FC<ICartProps> = ({
 
       <div className="container mx-auto mt-24 mb-28">
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-9">
+          <div className="col-span-12 xl:col-span-9">
             <div className="w-full bg-[#F8F8FD] py-20 px-8">
               <h5 className="font-JosefinSans text-xl text-navy-blue font-bold mb-7">
                 Shipping Address
@@ -163,15 +163,15 @@ const Checkout: React.FC<ICartProps> = ({
               </form>
             </div>
           </div>
-          <div className="col-span-3">
-            <div className="relative w-full h-[60%]">
-              <div className="overflow-y-auto absolute h-full w-full">
+          <div className="col-span-12 xl:col-span-3 flex flex-col justify-between h-full xl:h-[calc(100%_-_70.4%)]">
+            <div className="relative w-full h-full">
+              <div className="overflow-y-auto h-full w-full">
                 {cartProducts.map((product: Product) => (
                   <div
                     className="flex py-3 border-b border-[#E1E1E4]"
                     key={product.id}
                   >
-                    <div className="w-[87px]">
+                    <div className="max-w-[150px]">
                       <img
                         className="w-full rounded-sm"
                         src={

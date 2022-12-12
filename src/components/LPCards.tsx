@@ -16,7 +16,7 @@ import { FCTypes } from "../types/public.types";
 
 const LPCards: FC<FCTypes> = (props) => {
   const { data } = props;
-  const { wishlist, uid } = useAppSelector((state) => state.user);
+  const { wishlist } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   return (
@@ -55,11 +55,8 @@ const LPCards: FC<FCTypes> = (props) => {
         </div>
       </div>
       <div className="w-full flex items-center justify-between mt-3">
-        <Link
-          to={`product-details/${data.id}`}
-          className="flex items-center justify-center"
-        >
-          <h5 className="line-clamp-1 w-8/12 font-JosefinSans font-same text-navy-blue">
+        <Link to={`product-details/${data.id}`} className="flex items-center">
+          <h5 className="line-clamp-1 w-10/12 font-JosefinSans text-navy-blue">
             {data.title}
           </h5>
         </Link>
