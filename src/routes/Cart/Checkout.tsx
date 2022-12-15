@@ -163,7 +163,7 @@ const Checkout: React.FC<ICartProps> = ({
               </form>
             </div>
           </div>
-          <div className="col-span-12 xl:col-span-3 flex flex-col justify-between h-full xl:h-[calc(100%_-_70.4%)]">
+          <div className="col-span-12 xl:col-span-3 flex flex-col justify-between h-full xl:h-[356px]">
             <div className="relative w-full h-full">
               <div className="overflow-y-auto h-full w-full">
                 {cartProducts.map((product: Product) => (

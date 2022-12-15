@@ -367,10 +367,10 @@ const ProductDetails: FC = (): ReactElement | null => {
             </div>
             <div
               className={` ${
-                toggleState === 2 ? "columns-1 md:columns-2" : "hidden"
+                toggleState === 2 ? "grid grid-cols-1 md:grid-cols-2" : "hidden"
               }`}
             >
-              <div className="w-full">
+              <div>
                 {guest ? (
                   <div className="h-[300px] w-full flex items-center justify-center">
                     <p className="font-bold text-navy-blue text-xl">
@@ -421,7 +421,7 @@ const ProductDetails: FC = (): ReactElement | null => {
                   </form>
                 )}
               </div>
-              <div className="w-full">
+              <div className="py-5">
                 {productDetails.comments ? (
                   <div className="md:px-4">
                     {productDetails.comments.map(

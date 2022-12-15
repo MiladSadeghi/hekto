@@ -139,7 +139,8 @@ export const addToWishlist = createAsyncThunk("user/addToWishlist", async ({ pro
   const wait = toast.loading("Please wait...");
   const { user }: any = getState();
   try {
-    const userWishlist: any = (await getUserData(user.uid)).cart;
+    const userWishlist: any = (await getUserData(user.uid)).wishlist;
+    console.log(userWishlist)
     const newWishlist: string[] = [...userWishlist, productID];
     const userRef = doc(fireStoreDB, `users/${user.uid}`);
     await updateDoc(userRef, {
